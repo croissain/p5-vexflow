@@ -1,0 +1,27 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "eslint.enable": true,
+  "files.exclude": {
+    "**/build": true,
+    "**/releases": true,
+    "**/reference": true,
+    "**/node_modules": true,
+    "**/.git**": true,
+    "**/.vscode": true
+  },
+  "files.associations": {
+    "src/*.js": "javascript"
+  },
+  "search.exclude": {
+    "build/": true,
+    "node_modules/": true,
+    "docs/": true,
+    "releases/": true
+  },
+  "editor.tabSize": 2,
+  "eslint.format.enable": true,
+  "javascript.format.enable": false,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

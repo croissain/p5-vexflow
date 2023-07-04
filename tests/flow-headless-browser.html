@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <div id="qunit-tests"></div>
+    <script src="qunit/qunit.js"></script>
+    <script src="../build/cjs/vexflow-debug-with-tests.js"></script>
+    <script>
+      QUnit.config.noglobals = true;
+      QUnit.start();
+      Vex.Flow.Test.run();
+    </script>
+  </body>
+</html>
