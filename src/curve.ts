@@ -3,6 +3,8 @@
 //
 // This class implements curves (for slurs)
 
+import p5 from 'p5';
+
 import { Element } from './element';
 import { Note } from './note';
 import { Category } from './typeguard';
@@ -50,8 +52,8 @@ export class Curve extends Element {
   //    cps: List of control points
   //    x_shift: pixels to shift
   //    y_shift: pixels to shift
-  constructor(from: Note, to: Note, options: CurveOptions) {
-    super();
+  constructor(p: p5, from: Note, to: Note, options: CurveOptions) {
+    super(p);
 
     this.render_options = {
       thickness: 2,

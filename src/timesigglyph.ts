@@ -4,6 +4,8 @@
 // Renders time signatures glyphs for staffs
 // This class is used by TimeSignature to render the associated glyphs
 
+import p5 from 'p5';
+
 import { Glyph, GlyphMetrics } from './glyph';
 import { TimeSignature } from './timesignature';
 import { defined } from './util';
@@ -17,6 +19,7 @@ export class TimeSignatureGlyph extends Glyph {
   xMin: number;
 
   constructor(
+    p: p5,
     timeSignature: TimeSignature,
     topDigits: string,
     botDigits: string,
@@ -24,7 +27,7 @@ export class TimeSignatureGlyph extends Glyph {
     point: number,
     options?: { category: string }
   ) {
-    super(code, point, options);
+    super(p, code, point, options);
     this.timeSignature = timeSignature;
     this.topGlyphs = [];
     this.botGlyphs = [];
@@ -47,7 +50,7 @@ export class TimeSignatureGlyph extends Glyph {
           timeSigType = botDigits.length > 0 ? 'ParensRightSmall' : 'ParensRight';
           break;
       }
-      const topGlyph = new Glyph('timeSig' + timeSigType, this.timeSignature.point);
+      const topGlyph = new Glyph(this.p, 'timeSig' + timeSigType, this.timeSignature.point);
 
       this.topGlyphs.push(topGlyph);
       topWidth += topGlyph.getMetrics().width ?? 0;
@@ -68,7 +71,7 @@ export class TimeSignatureGlyph extends Glyph {
           timeSigType = 'ParensRightSmall';
           break;
       }
-      const botGlyph = new Glyph('timeSig' + timeSigType, this.timeSignature.point);
+      const botGlyph = new Glyph(this.p, 'timeSig' + timeSigType, this.timeSignature.point);
 
       this.botGlyphs.push(botGlyph);
       botWidth += defined(botGlyph.getMetrics().width);

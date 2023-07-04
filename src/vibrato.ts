@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { Bend } from './bend';
 import { Modifier } from './modifier';
 import { ModifierContext, ModifierContextState } from './modifiercontext';
@@ -56,8 +58,8 @@ export class Vibrato extends Modifier {
     return true;
   }
 
-  constructor() {
-    super();
+  constructor(p: p5) {
+    super(p);
 
     this.position = Modifier.Position.RIGHT;
     this.render_options = {

@@ -44,6 +44,8 @@
  * }
  */
 
+import p5 from 'p5';
+
 import { Element } from './element';
 import { Formatter } from './formatter';
 import { Glyph } from './glyph';
@@ -117,8 +119,8 @@ export class Tuplet extends Element {
     return tupletMetrics;
   }
 
-  constructor(notes: Note[], options: TupletOptions = {}) {
-    super();
+  constructor(p: p5, notes: Note[], options: TupletOptions = {}) {
+    super(p);
     if (!notes || !notes.length) {
       throw new RuntimeError('BadArguments', 'No notes provided for tuplet.');
     }
@@ -239,14 +241,14 @@ export class Tuplet extends Element {
     this.numerator_glyphs = [];
     let n = this.num_notes;
     while (n >= 1) {
-      this.numerator_glyphs.unshift(new Glyph('timeSig' + (n % 10), this.point));
+      this.numerator_glyphs.unshift(new Glyph(this.p, 'timeSig' + (n % 10), this.point));
       n = parseInt((n / 10).toString(), 10);
     }
 
     this.denom_glyphs = [];
     n = this.notes_occupied;
     while (n >= 1) {
-      this.denom_glyphs.unshift(new Glyph('timeSig' + (n % 10), this.point));
+      this.denom_glyphs.unshift(new Glyph(this.p, 'timeSig' + (n % 10), this.point));
       n = parseInt((n / 10).toString(), 10);
     }
   }

@@ -2,8 +2,11 @@
 // @author Mohit Cheppudira
 // MIT License
 
+import p5 from 'p5';
+
 import { BoundingBox } from './boundingbox';
 import { Font, FontInfo, FontStyle, FontWeight } from './font';
+import P5Base from './P5Base';
 import { Registry } from './registry';
 import { RenderContext } from './rendercontext';
 import { Category } from './typeguard';
@@ -64,7 +67,7 @@ export interface ElementStyle {
  * working with the Registry to create unique ids, but does not have any tools for
  * formatting x or y positions or connections to a Stave.
  */
-export abstract class Element {
+export abstract class Element extends P5Base {
   static get CATEGORY(): string {
     return Category.Element;
   }
@@ -102,7 +105,8 @@ export abstract class Element {
    */
   protected textFont?: Required<FontInfo>;
 
-  constructor() {
+  constructor(p: p5) {
+    super(p);
     this.attrs = {
       id: Element.newID(),
       type: this.getCategory(),

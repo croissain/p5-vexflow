@@ -4,6 +4,8 @@
 // This file implements the `StringNumber` class which renders string
 // number annotations beside notes.
 
+import p5 from 'p5';
+
 import { Font, FontInfo, FontStyle, FontWeight } from './font';
 import { Modifier, ModifierPosition } from './modifier';
 import { ModifierContextState } from './modifiercontext';
@@ -156,8 +158,8 @@ export class StringNumber extends Modifier {
   protected dashed: boolean;
   protected leg: number;
 
-  constructor(number: string) {
-    super();
+  constructor(p: p5, number: string) {
+    super(p);
 
     this.string_number = number;
     this.position = Modifier.Position.ABOVE; // Default position above stem or note head

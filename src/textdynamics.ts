@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { Glyph } from './glyph';
 import { Note } from './note';
 import { Tables } from './tables';
@@ -72,8 +74,8 @@ export class TextDynamics extends Note {
    * @param noteStruct an object that contains a `duration` property and a
    * `sequence` of letters that represents the letters to render.
    */
-  constructor(noteStruct: TextNoteStruct) {
-    super(noteStruct);
+  constructor(p: p5, noteStruct: TextNoteStruct) {
+    super(p, noteStruct);
 
     this.sequence = (noteStruct.text || '').toLowerCase();
     this.line = noteStruct.line || 0;
@@ -104,7 +106,7 @@ export class TextDynamics extends Note {
       if (!glyph_data) throw new RuntimeError('Invalid dynamics character: ' + letter);
 
       const size = defined(this.render_options.glyph_font_size);
-      const glyph = new Glyph(glyph_data.code, size, { category: 'textNote' });
+      const glyph = new Glyph(this.p, glyph_data.code, size, { category: 'textNote' });
 
       // Add the glyph
       this.glyphs.push(glyph);

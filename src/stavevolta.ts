@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // Author Larry Kuhns 2011
 
+import p5 from 'p5';
+
 import { Font, FontInfo, FontStyle, FontWeight } from './font';
 import { Stave } from './stave';
 import { StaveModifier } from './stavemodifier';
@@ -35,8 +37,8 @@ export class Volta extends StaveModifier {
 
   protected y_shift: number;
 
-  constructor(type: number, number: string, x: number, y_shift: number) {
-    super();
+  constructor(p: p5, type: number, number: string, x: number, y_shift: number) {
+    super(p);
     this.volta = type;
     this.x = x;
     this.y_shift = y_shift;

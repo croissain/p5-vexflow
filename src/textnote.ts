@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { Font, FontInfo, FontStyle, FontWeight } from './font';
 import { Glyph } from './glyph';
 import { Note, NoteStruct } from './note';
@@ -115,8 +117,8 @@ export class TextNote extends Note {
   protected justification: TextJustification;
   protected line: number;
 
-  constructor(noteStruct: TextNoteStruct) {
-    super(noteStruct);
+  constructor(p: p5, noteStruct: TextNoteStruct) {
+    super(p, noteStruct);
 
     this.text = noteStruct.text || '';
     this.superscript = noteStruct.superscript;
@@ -134,7 +136,7 @@ export class TextNote extends Note {
       const struct = TextNote.GLYPHS[noteStruct.glyph];
       if (!struct) throw new RuntimeError('Invalid glyph type: ' + noteStruct.glyph);
 
-      this.glyph = new Glyph(struct.code, Tables.NOTATION_FONT_SCALE, { category: 'textNote' });
+      this.glyph = new Glyph(this.p, struct.code, Tables.NOTATION_FONT_SCALE, { category: 'textNote' });
       this.setWidth(this.glyph.getMetrics().width);
     } else {
       this.glyph = undefined;

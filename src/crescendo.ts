@@ -6,6 +6,8 @@
 // type in VexFlow. This object would most likely be formatted in a Voice
 // with `TextNotes` - which are used to represent other dynamics markings.
 
+import p5 from 'p5';
+
 import { Note, NoteStruct } from './note';
 import { RenderContext } from './rendercontext';
 import { TickContext } from './tickcontext';
@@ -69,8 +71,8 @@ export class Crescendo extends Note {
   };
 
   // Initialize the crescendo's properties
-  constructor(noteStruct: NoteStruct) {
-    super(noteStruct);
+  constructor(p: p5, noteStruct: NoteStruct) {
+    super(p, noteStruct);
 
     // Whether the object is a decrescendo
     this.decrescendo = false;

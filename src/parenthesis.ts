@@ -2,6 +2,8 @@
 // Author: Rodrigo Vilar
 // MIT License
 
+import p5 from 'p5';
+
 import { Glyph } from './glyph';
 import { Modifier, ModifierPosition } from './modifier';
 import { ModifierContextState } from './modifiercontext';
@@ -18,11 +20,11 @@ export class Parenthesis extends Modifier {
   protected point: number;
 
   /** Add parentheses to the notes. */
-  static buildAndAttach(notes: Note[]): void {
+  static buildAndAttach(p: p5, notes: Note[]): void {
     for (const note of notes) {
       for (let i = 0; i < note.keys.length; i++) {
-        note.addModifier(new Parenthesis(ModifierPosition.LEFT), i);
-        note.addModifier(new Parenthesis(ModifierPosition.RIGHT), i);
+        note.addModifier(new Parenthesis(p, ModifierPosition.LEFT), i);
+        note.addModifier(new Parenthesis(p, ModifierPosition.RIGHT), i);
       }
     }
   }
@@ -63,8 +65,8 @@ export class Parenthesis extends Modifier {
    *
    * @param position Modifier.Position.LEFT (default) or Modifier.Position.RIGHT
    */
-  constructor(position: ModifierPosition) {
-    super();
+  constructor(p: p5, position: ModifierPosition) {
+    super(p);
 
     this.position = position ?? Modifier.Position.LEFT;
 

@@ -2,6 +2,8 @@
 // Author: Balazs Forian-Szabo
 // MIT License
 
+import p5 from 'p5';
+
 import { Element } from './element';
 import { Note } from './note';
 import { Category } from './typeguard';
@@ -39,8 +41,8 @@ export class VibratoBracket extends Element {
    * An undefined value for the start or stop note indicates that the vibrato
    * is drawn from the beginning or until the end of the stave accordingly.
    */
-  constructor(bracket_data: { stop?: Note | null; start?: Note | null }) {
-    super();
+  constructor(p: p5, bracket_data: { stop?: Note | null; start?: Note | null }) {
+    super(p);
 
     if (bracket_data.start) this.start = bracket_data.start;
     if (bracket_data.stop) this.stop = bracket_data.stop;

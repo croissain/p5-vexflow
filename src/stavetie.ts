@@ -3,6 +3,8 @@
 // This class implements varies types of ties between contiguous notes. The
 // ties include: regular ties, hammer ons, pull offs, and slides.
 
+import p5 from 'p5';
+
 import { Element } from './element';
 import { FontInfo } from './font';
 import { Note } from './note';
@@ -56,8 +58,8 @@ export class StaveTie extends Element {
    *
    * @param text
    */
-  constructor(notes: TieNotes, text?: string) {
-    super();
+  constructor(p: p5, notes: TieNotes, text?: string) {
+    super(p);
     this.setNotes(notes);
     this.text = text;
     this.render_options = {

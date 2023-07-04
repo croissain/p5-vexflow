@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { Beam } from './beam';
 import { Font } from './font';
 import { Fraction } from './fraction';
@@ -252,8 +254,8 @@ export abstract class Note extends Tickable {
    *
    * @param noteStruct To create a new note you need to provide a `noteStruct`.
    */
-  constructor(noteStruct: NoteStruct) {
-    super();
+  constructor(p: p5, noteStruct: NoteStruct) {
+    super(p);
 
     if (!noteStruct) {
       throw new RuntimeError('BadArguments', 'Note must have valid initialization data to identify duration and type.');

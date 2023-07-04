@@ -5,6 +5,8 @@
 // See tables.js for the internal time signatures
 // representation
 
+import p5 from 'p5';
+
 import { Glyph } from './glyph';
 import { StaveModifier, StaveModifierPosition } from './stavemodifier';
 import { Tables } from './tables';
@@ -69,8 +71,8 @@ export class TimeSignature extends StaveModifier {
   protected is_numeric: boolean = true;
   protected validate_args: boolean;
 
-  constructor(timeSpec: string = '4/4', customPadding = 15, validate_args = true) {
-    super();
+  constructor(p: p5, timeSpec: string = '4/4', customPadding = 15, validate_args = true) {
+    super(p);
     this.validate_args = validate_args;
 
     const padding = customPadding;
@@ -98,7 +100,7 @@ export class TimeSignature extends StaveModifier {
       return {
         line,
         num: false,
-        glyph: new Glyph(code, Tables.NOTATION_FONT_SCALE),
+        glyph: new Glyph(this.p, code, Tables.NOTATION_FONT_SCALE),
       };
     }
 
@@ -121,7 +123,7 @@ export class TimeSignature extends StaveModifier {
    */
   makeTimeSignatureGlyph(topDigits: string, botDigits: string): TimeSignatureGlyph {
     // note that 'code' is ignored by TimeSignatureGlyph when rendering.
-    return new TimeSignatureGlyph(this, topDigits, botDigits, 'timeSig0', this.point);
+    return new TimeSignatureGlyph(this.p, this, topDigits, botDigits, 'timeSig0', this.point);
   }
 
   /**

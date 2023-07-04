@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { BoundingBox } from './boundingbox';
 import { ElementStyle } from './element';
 import { Glyph } from './glyph';
@@ -121,8 +123,8 @@ export class NoteHead extends Note {
   protected index?: number;
   protected slashed: boolean;
 
-  constructor(noteStruct: NoteHeadStruct) {
-    super(noteStruct);
+  constructor(p: p5, noteStruct: NoteHeadStruct) {
+    super(p, noteStruct);
 
     this.index = noteStruct.index;
     this.x = noteStruct.x || 0;

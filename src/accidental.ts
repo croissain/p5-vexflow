@@ -3,6 +3,8 @@
 // @author Mohit Cheppudira
 // @author Greg Ristow (modifications)
 
+import p5 from 'p5';
+
 import { Fraction } from './fraction';
 import { Glyph } from './glyph';
 import { Modifier } from './modifier';
@@ -367,7 +369,7 @@ export class Accidental extends Modifier {
    * The accidentals will be remembered between all the voices provided.
    * Optionally, you can also provide an initial `keySignature`.
    */
-  static applyAccidentals(voices: Voice[], keySignature: string): void {
+  static applyAccidentals(p: p5, voices: Voice[], keySignature: string): void {
     const tickPositions: number[] = [];
     const tickNoteMap: Record<number, Tickable[]> = {};
 
@@ -446,7 +448,7 @@ export class Accidental extends Modifier {
             scaleMap[key.root + octave] = pitch;
 
             // Create the accidental
-            const accidental = new Accidental(accidentalString);
+            const accidental = new Accidental(p, accidentalString);
 
             // Attach the accidental to the StaveNote
             staveNote.addModifier(accidental, keyIndex);
@@ -473,8 +475,8 @@ export class Accidental extends Modifier {
    * @param type value from `Vex.Flow.accidentalCodes.accidentals` table in `tables.ts`.
    * For example: `#`, `##`, `b`, `n`, etc.
    */
-  constructor(type: string) {
-    super();
+  constructor(p: p5, type: string) {
+    super(p);
 
     L('New accidental: ', type);
 
@@ -501,12 +503,12 @@ export class Accidental extends Modifier {
 
   protected reset(): void {
     const fontScale = this.render_options.font_scale;
-    this.glyph = new Glyph(this.accidental.code, fontScale);
+    this.glyph = new Glyph(this.p, this.accidental.code, fontScale);
     this.glyph.setOriginX(1.0);
 
     if (this.cautionary) {
-      this.parenLeft = new Glyph(Tables.accidentalCodes('{').code, fontScale);
-      this.parenRight = new Glyph(Tables.accidentalCodes('}').code, fontScale);
+      this.parenLeft = new Glyph(this.p, Tables.accidentalCodes('{').code, fontScale);
+      this.parenRight = new Glyph(this.p, Tables.accidentalCodes('}').code, fontScale);
       this.parenLeft.setOriginX(1.0);
       this.parenRight.setOriginX(1.0);
     }

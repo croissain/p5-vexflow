@@ -3,6 +3,8 @@
 // Author Larry Kuhns 2013
 // Class to draws string numbers into the notation.
 
+import p5 from 'p5';
+
 import { Builder } from './easyscore';
 import { Font, FontInfo, FontStyle, FontWeight } from './font';
 import { Modifier, ModifierPosition } from './modifier';
@@ -130,8 +132,8 @@ export class FretHandFinger extends Modifier {
   protected x_offset: number;
   protected y_offset: number;
 
-  constructor(finger: string) {
-    super();
+  constructor(p: p5, finger: string) {
+    super(p);
 
     this.finger = finger;
     this.width = 7;

@@ -6,6 +6,8 @@
 // This file implements key signatures. A key signature sits on a stave
 // and indicates the notes with implicit accidentals.
 
+import p5 from 'p5';
+
 import { Glyph } from './glyph';
 import { Stave } from './stave';
 import { StaveModifier, StaveModifierPosition } from './stavemodifier';
@@ -90,8 +92,8 @@ export class KeySignature extends StaveModifier {
   };
 
   // Create a new Key Signature based on a `key_spec`
-  constructor(keySpec: string, cancelKeySpec?: string, alterKeySpec?: string[]) {
-    super();
+  constructor(p: p5, keySpec: string, cancelKeySpec?: string, alterKeySpec?: string[]) {
+    super(p);
 
     this.setKeySig(keySpec, cancelKeySpec, alterKeySpec);
     this.setPosition(StaveModifierPosition.BEGIN);
@@ -106,7 +108,7 @@ export class KeySignature extends StaveModifier {
   // spacing will be included in the glyph's position
   convertToGlyph(acc: { type: string; line: number }, nextAcc: { type: string; line: number }): void {
     const accGlyphData = Tables.accidentalCodes(acc.type);
-    const glyph = new Glyph(accGlyphData.code, this.glyphFontScale);
+    const glyph = new Glyph(this.p, accGlyphData.code, this.glyphFontScale);
 
     // Determine spacing between current accidental and the next accidental
     let extraWidth = 1;

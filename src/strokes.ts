@@ -4,6 +4,8 @@
 // This file implements the `Stroke` class which renders chord strokes
 // that can be arpeggiated, brushed, rasquedo, etc.
 
+import p5 from 'p5';
+
 import { Font, FontInfo, FontStyle, FontWeight } from './font';
 import { Glyph } from './glyph';
 import { Modifier } from './modifier';
@@ -80,8 +82,8 @@ export class Stroke extends Modifier {
     font_scale: number;
   };
 
-  constructor(type: number, options?: { all_voices: boolean }) {
-    super();
+  constructor(p: p5, type: number, options?: { all_voices: boolean }) {
+    super(p);
 
     this.options = { all_voices: true, ...options };
 

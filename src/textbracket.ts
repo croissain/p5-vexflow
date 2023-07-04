@@ -5,6 +5,8 @@
 // The octave transposition markings (8va, 8vb, 15va, 15vb) can be created
 // using this class.
 
+import p5 from 'p5';
+
 import { Element } from './element';
 import { Font, FontInfo, FontStyle, FontWeight } from './font';
 import { Note } from './note';
@@ -93,8 +95,11 @@ export class TextBracket extends Element {
     return TextBracket.PositionString;
   }
 
-  constructor({ start, stop, text = '', superscript = '', position = TextBracketPosition.TOP }: TextBracketParams) {
-    super();
+  constructor(
+    p: p5,
+    { start, stop, text = '', superscript = '', position = TextBracketPosition.TOP }: TextBracketParams
+  ) {
+    super(p);
 
     this.start = start;
     this.stop = stop;

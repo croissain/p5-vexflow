@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { Element } from './element';
 import { Font, FontInfo, FontStyle, FontWeight } from './font';
 import { Glyph } from './glyph';
@@ -117,7 +119,7 @@ export class StaveConnector extends Element {
     options: { shift_x: number; shift_y: number };
   }[];
 
-  protected type: typeof StaveConnector['type'][keyof typeof StaveConnector['type']];
+  protected type: (typeof StaveConnector)['type'][keyof (typeof StaveConnector)['type']];
 
   readonly top_stave: Stave;
   readonly bottom_stave: Stave;
@@ -125,8 +127,8 @@ export class StaveConnector extends Element {
 
   protected x_shift: number;
 
-  constructor(top_stave: Stave, bottom_stave: Stave) {
-    super();
+  constructor(p: p5, top_stave: Stave, bottom_stave: Stave) {
+    super(p);
 
     this.thickness = Tables.STAVE_LINE_THICKNESS;
     this.width = 3;

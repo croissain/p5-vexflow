@@ -2,6 +2,8 @@
 //
 // Any glyph that is set to appear on a Stave and take up musical time and graphical space.
 
+import p5 from 'p5';
+
 import { BoundingBox } from './boundingbox';
 import { Glyph } from './glyph';
 import { Note, NoteStruct } from './note';
@@ -20,8 +22,8 @@ export class GlyphNote extends Note {
   protected options: Required<GlyphNoteOptions>;
   protected glyph!: Glyph;
 
-  constructor(glyph: Glyph, noteStruct: NoteStruct, options?: GlyphNoteOptions) {
-    super(noteStruct);
+  constructor(p: p5, glyph: Glyph, noteStruct: NoteStruct, options?: GlyphNoteOptions) {
+    super(p, noteStruct);
     this.options = {
       ignoreTicks: false,
       line: 2,

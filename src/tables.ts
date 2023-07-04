@@ -1,5 +1,7 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 
+import p5 from 'p5';
+
 import { ArticulationStruct } from './articulation';
 import { Font } from './font';
 import { Fraction } from './fraction';
@@ -680,13 +682,13 @@ export class Tables {
     return noteValue;
   }
 
-  static tabToGlyphProps(fret: string, scale: number = 1.0): GlyphProps {
+  static tabToGlyphProps(p: p5, fret: string, scale: number = 1.0): GlyphProps {
     let glyph = undefined;
     let width = 0;
     let shift_y = 0;
 
     if (fret.toUpperCase() === 'X') {
-      const glyphMetrics = new Glyph('accidentalDoubleSharp', Tables.TABLATURE_FONT_SCALE).getMetrics();
+      const glyphMetrics = new Glyph(p, 'accidentalDoubleSharp', Tables.TABLATURE_FONT_SCALE).getMetrics();
       glyph = 'accidentalDoubleSharp';
       if (glyphMetrics.width == undefined || glyphMetrics.height == undefined)
         throw new RuntimeError('InvalidMetrics', 'Width and height required');

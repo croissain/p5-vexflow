@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { ModifierContext } from './modifiercontext';
 import { Note } from './note';
 import { Barline, BarlineType } from './stavebarline';
@@ -31,8 +33,8 @@ export class BarNote extends Note {
   // Initialized by the constructor via this.setType(type)
   protected type!: BarlineType;
 
-  constructor(type: string | BarlineType = BarlineType.SINGLE) {
-    super({ duration: 'b' });
+  constructor(p: p5, type: string | BarlineType = BarlineType.SINGLE) {
+    super(p, { duration: 'b' });
 
     this.metrics = {
       widths: {},
@@ -86,7 +88,7 @@ export class BarNote extends Note {
     const ctx = this.checkContext();
     L('Rendering bar line at: ', this.getAbsoluteX());
     this.applyStyle(ctx);
-    const barline = new Barline(this.type);
+    const barline = new Barline(this.p, this.type);
     barline.setX(this.getAbsoluteX());
     barline.draw(this.checkStave());
     this.restoreStyle(ctx);

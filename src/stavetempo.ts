@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // Author Radosaw Eichler 2012
 
+import p5 from 'p5';
+
 import { Font, FontInfo, FontStyle, FontWeight } from './font';
 import { Glyph } from './glyph';
 import { Stave } from './stave';
@@ -34,8 +36,8 @@ export class StaveTempo extends StaveModifier {
   /** Font size for note. */
   public render_options = { glyph_font_scale: 30 };
 
-  constructor(tempo: StaveTempoOptions, x: number, shift_y: number) {
-    super();
+  constructor(p: p5, tempo: StaveTempoOptions, x: number, shift_y: number) {
+    super(p);
 
     this.tempo = tempo;
     this.position = StaveModifierPosition.ABOVE;

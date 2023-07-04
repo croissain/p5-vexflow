@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { BoundingBox } from './boundingbox';
 import { Element } from './element';
 import { Factory } from './factory';
@@ -82,8 +84,8 @@ export class System extends Element {
   protected connector?: StaveConnector;
   protected debugNoteMetricsYs?: { y: number; stave: Stave }[];
 
-  constructor(params: SystemOptions = {}) {
-    super();
+  constructor(p: p5, params: SystemOptions = {}) {
+    super(p);
     this.setOptions(params);
     this.partStaves = [];
     this.partStaveInfos = [];

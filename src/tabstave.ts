@@ -1,5 +1,7 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 
+import p5 from 'p5';
+
 import { Stave, StaveOptions } from './stave';
 import { Category } from './typeguard';
 
@@ -8,7 +10,7 @@ export class TabStave extends Stave {
     return Category.TabStave;
   }
 
-  constructor(x: number, y: number, width: number, options?: StaveOptions) {
+  constructor(p: p5, x: number, y: number, width: number, options?: StaveOptions) {
     const tab_options = {
       spacing_between_lines_px: 13,
       num_lines: 6,
@@ -16,7 +18,7 @@ export class TabStave extends Stave {
       ...options,
     };
 
-    super(x, y, width, tab_options);
+    super(p, x, y, width, tab_options);
   }
 
   getYForGlyphs(): number {

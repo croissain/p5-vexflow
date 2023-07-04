@@ -7,6 +7,8 @@
 //
 // See `tests/tabnote_tests.ts` for usage examples.
 
+import p5 from 'p5';
+
 import { Font } from './font';
 import { Glyph, GlyphProps } from './glyph';
 import { Modifier } from './modifier';
@@ -134,8 +136,8 @@ export class TabNote extends StemmableNote {
 
   // Initialize the TabNote with a `noteStruct` full of properties
   // and whether to `draw_stem` when rendering the note
-  constructor(noteStruct: TabNoteStruct, draw_stem: boolean = false) {
-    super(noteStruct);
+  constructor(p: p5, noteStruct: TabNoteStruct, draw_stem: boolean = false) {
+    super(p, noteStruct);
 
     this.ghost = false; // Renders parenthesis around notes
 
@@ -234,7 +236,7 @@ export class TabNote extends StemmableNote {
     for (let i = 0; i < this.positions.length; ++i) {
       let fret = this.positions[i].fret;
       if (this.ghost) fret = '(' + fret + ')';
-      const glyphProps = Tables.tabToGlyphProps(fret.toString(), this.render_options.scale);
+      const glyphProps = Tables.tabToGlyphProps(this.p, fret.toString(), this.render_options.scale);
       this.glyphPropsArr.push(glyphProps);
       this.width = Math.max(glyphProps.getWidth(), this.width);
     }

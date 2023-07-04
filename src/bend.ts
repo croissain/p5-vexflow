@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { Element } from './element';
 import { FontInfo } from './font';
 import { Modifier } from './modifier';
@@ -105,8 +107,8 @@ export class Bend extends Modifier {
    * @param release if true, render a release. (DEPRECATED)
    * @param phrase if set, ignore "text" and "release", and use the more sophisticated phrase specified
    */
-  constructor(text: string, release: boolean = false, phrase?: BendPhrase[]) {
-    super();
+  constructor(p: p5, text: string, release: boolean = false, phrase?: BendPhrase[]) {
+    super(p);
 
     this.text = text;
     this.x_shift = 0;

@@ -3,6 +3,8 @@
 // ## Description
 // A base class for stave modifiers (e.g. clefs, key signatures)
 
+import p5 from 'p5';
+
 import { Element } from './element';
 import { Glyph } from './glyph';
 import { Stave } from './stave';
@@ -43,8 +45,8 @@ export class StaveModifier extends Element {
   protected stave?: Stave;
   protected layoutMetrics?: LayoutMetrics;
 
-  constructor() {
-    super();
+  constructor(p: p5) {
+    super(p);
 
     this.padding = 10;
     this.position = StaveModifierPosition.ABOVE;

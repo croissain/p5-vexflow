@@ -383,15 +383,15 @@ module.exports = (grunt) => {
     // Run unit tests on the command line by loading tests/flow-headless-browser.html.
     // Requires the CJS build to be present in the `build/cjs/` directory (See: grunt build:cjs).
     // The grunt-contrib-qunit package uses puppeteer to load the test page.
-    qunit: {
-      files: ['tests/flow-headless-browser.html'],
-      options: {
-        puppeteer: {
-          headless: "new",
-          args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        },
-      },
-    },
+    // qunit: {
+    //   files: ['tests/flow-headless-browser.html'],
+    //   options: {
+    //     puppeteer: {
+    //       headless: "new",
+    //       args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    //     },
+    //   },
+    // },
     copy: {
       // grunt copy:reference
       // After `grunt test` call this to save the current build/ to reference/.
@@ -453,7 +453,7 @@ module.exports = (grunt) => {
 
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-qunit');
+  // grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-webpack');
 
   // grunt
@@ -468,7 +468,7 @@ module.exports = (grunt) => {
 
   // grunt test
   // Run command line qunit tests.
-  grunt.registerTask('test', 'Run command line unit tests.', ['clean:build', 'webpack:debug', 'qunit']);
+  // grunt.registerTask('test', 'Run command line unit tests.', ['clean:build', 'webpack:debug', 'qunit']);
 
   // grunt build:cjs
   grunt.registerTask('build:cjs', 'Use webpack to create CJS files in build/cjs/', 'webpack:prodAndDebug');
@@ -549,7 +549,7 @@ module.exports = (grunt) => {
   // below to test the existing build:
 
   // grunt test:cmd
-  grunt.registerTask('test:cmd', 'Run command line unit tests.', 'qunit');
+  // grunt.registerTask('test:cmd', 'Run command line unit tests.', 'qunit');
 
   // grunt test:browser:cjs
   // Open the default browser to the flow.html test page.

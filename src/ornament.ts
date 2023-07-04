@@ -2,6 +2,8 @@
 // Author: Cyril Silverman
 // MIT License
 
+import p5 from 'p5';
+
 import { Glyph } from './glyph';
 import { Modifier } from './modifier';
 import { ModifierContextState } from './modifiercontext';
@@ -174,8 +176,8 @@ export class Ornament extends Modifier {
    * Create a new ornament of type `type`, which is an entry in
    * `Vex.Flow.ornamentCodes` in `tables.ts`.
    */
-  constructor(type: string) {
-    super();
+  constructor(p: p5, type: string) {
+    super(p);
 
     this.type = type;
     this.delayed = false;
@@ -211,7 +213,7 @@ export class Ornament extends Modifier {
     this.x_shift = metrics ? metrics.xOffset : 0;
     this.y_shift = metrics ? metrics.yOffset : 0;
 
-    this.glyph = new Glyph(this.ornament.code, this.render_options.font_scale, {
+    this.glyph = new Glyph(this.p, this.ornament.code, this.render_options.font_scale, {
       category: `ornament.${this.ornament.code}`,
     });
 
@@ -236,7 +238,7 @@ export class Ornament extends Modifier {
   /** Set the upper accidental for the ornament. */
   setUpperAccidental(accid: string): this {
     const scale = this.render_options.font_scale / 1.3;
-    this.accidentalUpper = new Glyph(Tables.accidentalCodes(accid).code, scale);
+    this.accidentalUpper = new Glyph(this.p, Tables.accidentalCodes(accid).code, scale);
     this.accidentalUpper.setOrigin(0.5, 1.0);
     return this;
   }
@@ -244,7 +246,7 @@ export class Ornament extends Modifier {
   /** Set the lower accidental for the ornament. */
   setLowerAccidental(accid: string): this {
     const scale = this.render_options.font_scale / 1.3;
-    this.accidentalLower = new Glyph(Tables.accidentalCodes(accid).code, scale);
+    this.accidentalLower = new Glyph(this.p, Tables.accidentalCodes(accid).code, scale);
     this.accidentalLower.setOrigin(0.5, 1.0);
     return this;
   }

@@ -2,6 +2,8 @@
 // @author Mohit Cheppudira
 // MIT License
 
+import p5 from 'p5';
+
 import { Accidental } from './accidental';
 import { Annotation, AnnotationHorizontalJustify, AnnotationVerticalJustify } from './annotation';
 import { Articulation } from './articulation';
@@ -26,6 +28,7 @@ import { MultiMeasureRest, MultimeasureRestRenderOptions } from './multimeasurer
 import { Note, NoteStruct } from './note';
 import { NoteSubGroup } from './notesubgroup';
 import { Ornament } from './ornament';
+import P5Base from './P5Base';
 import { PedalMarking } from './pedalmarking';
 import { RenderContext } from './rendercontext';
 import { Renderer } from './renderer';
@@ -74,7 +77,7 @@ function L(...args: any[]) {
 /**
  * Factory implements a high level API around VexFlow.
  */
-export class Factory {
+export class Factory extends P5Base {
   /** To enable logging for this class. Set `Vex.Flow.Factory.DEBUG` to `true`. */
   static DEBUG: boolean = false;
 
@@ -90,8 +93,8 @@ export class Factory {
    *
    * `const vf: Factory = Vex.Flow.Factory.newFromElementId('boo', 1200, 600 );`
    */
-  static newFromElementId(elementId: string | null, width = 500, height = 200): Factory {
-    return new Factory({ renderer: { elementId, width, height } });
+  static newFromElementId(p: p5, elementId: string | null, width = 500, height = 200): Factory {
+    return new Factory(p, { renderer: { elementId, width, height } });
   }
 
   protected options: Required<FactoryOptions>;
@@ -110,7 +113,8 @@ export class Factory {
    *
    * `const vf: Factory = new Vex.Flow.Factory({renderer: { elementId: 'boo', width: 1200, height: 600 }});`
    */
-  constructor(options: FactoryOptions = {}) {
+  constructor(p: p5, options: FactoryOptions = {}) {
+    super(p);
     L('New factory: ', options);
     this.options = {
       stave: {
@@ -199,7 +203,7 @@ export class Factory {
       ...params,
     };
 
-    const stave: Stave = new Stave(p.x, p.y, p.width, p.options);
+    const stave: Stave = new Stave(this.p, p.x, p.y, p.width, p.options);
     this.staves.push(stave);
     stave.setContext(this.context);
     this.stave = stave;
@@ -216,7 +220,7 @@ export class Factory {
       ...params,
     };
 
-    const stave = new TabStave(p.x, p.y, p.width, p.options);
+    const stave = new TabStave(this.p, p.x, p.y, p.width, p.options);
     this.staves.push(stave);
     stave.setContext(this.context);
     this.stave = stave;
@@ -224,7 +228,7 @@ export class Factory {
   }
 
   StaveNote(noteStruct: StaveNoteStruct): StaveNote {
-    const note = new StaveNote(noteStruct);
+    const note = new StaveNote(this.p, noteStruct);
     if (this.stave) note.setStave(this.stave);
     note.setContext(this.context);
     this.renderQ.push(note);
@@ -232,7 +236,7 @@ export class Factory {
   }
 
   GlyphNote(glyph: Glyph, noteStruct: NoteStruct, options?: GlyphNoteOptions): GlyphNote {
-    const note = new GlyphNote(glyph, noteStruct, options);
+    const note = new GlyphNote(this.p, glyph, noteStruct, options);
     if (this.stave) note.setStave(this.stave);
     note.setContext(this.context);
     this.renderQ.push(note);
@@ -240,7 +244,7 @@ export class Factory {
   }
 
   RepeatNote(type: string, noteStruct?: NoteStruct, options?: GlyphNoteOptions): RepeatNote {
-    const note = new RepeatNote(type, noteStruct, options);
+    const note = new RepeatNote(this.p, type, noteStruct, options);
     if (this.stave) note.setStave(this.stave);
     note.setContext(this.context);
     this.renderQ.push(note);
@@ -248,7 +252,7 @@ export class Factory {
   }
 
   GhostNote(noteStruct: string | NoteStruct): GhostNote {
-    const ghostNote = new GhostNote(noteStruct);
+    const ghostNote = new GhostNote(this.p, noteStruct);
     if (this.stave) ghostNote.setStave(this.stave);
     ghostNote.setContext(this.context);
     this.renderQ.push(ghostNote);
@@ -256,7 +260,7 @@ export class Factory {
   }
 
   TextNote(noteStruct: TextNoteStruct): TextNote {
-    const textNote = new TextNote(noteStruct);
+    const textNote = new TextNote(this.p, noteStruct);
     if (this.stave) textNote.setStave(this.stave);
     textNote.setContext(this.context);
     this.renderQ.push(textNote);
@@ -264,7 +268,7 @@ export class Factory {
   }
 
   BarNote(params: { type?: BarlineType | string } = {}): BarNote {
-    const barNote = new BarNote(params.type);
+    const barNote = new BarNote(this.p, params.type);
     if (this.stave) barNote.setStave(this.stave);
     barNote.setContext(this.context);
     this.renderQ.push(barNote);
@@ -281,7 +285,7 @@ export class Factory {
       ...params,
     };
 
-    const clefNote = new ClefNote(p.type, p.options.size, p.options.annotation);
+    const clefNote = new ClefNote(this.p, p.type, p.options.size, p.options.annotation);
     if (this.stave) clefNote.setStave(this.stave);
     clefNote.setContext(this.context);
     this.renderQ.push(clefNote);
@@ -294,7 +298,7 @@ export class Factory {
       ...params,
     };
 
-    const timeSigNote = new TimeSigNote(p.time);
+    const timeSigNote = new TimeSigNote(this.p, p.time);
     if (this.stave) timeSigNote.setStave(this.stave);
     timeSigNote.setContext(this.context);
     this.renderQ.push(timeSigNote);
@@ -302,7 +306,7 @@ export class Factory {
   }
 
   KeySigNote(params: { key: string; cancelKey?: string; alterKey?: string[] }): KeySigNote {
-    const keySigNote = new KeySigNote(params.key, params.cancelKey, params.alterKey);
+    const keySigNote = new KeySigNote(this.p, params.key, params.cancelKey, params.alterKey);
     if (this.stave) keySigNote.setStave(this.stave);
     keySigNote.setContext(this.context);
     this.renderQ.push(keySigNote);
@@ -310,7 +314,7 @@ export class Factory {
   }
 
   TabNote(noteStruct: TabNoteStruct): TabNote {
-    const note = new TabNote(noteStruct);
+    const note = new TabNote(this.p, noteStruct);
     if (this.stave) note.setStave(this.stave);
     note.setContext(this.context);
     this.renderQ.push(note);
@@ -318,20 +322,20 @@ export class Factory {
   }
 
   GraceNote(noteStruct: GraceNoteStruct): GraceNote {
-    const note = new GraceNote(noteStruct);
+    const note = new GraceNote(this.p, noteStruct);
     if (this.stave) note.setStave(this.stave);
     note.setContext(this.context);
     return note;
   }
 
   GraceNoteGroup(params: { notes: StemmableNote[]; slur?: boolean }): GraceNoteGroup {
-    const group = new GraceNoteGroup(params.notes, params.slur);
+    const group = new GraceNoteGroup(this.p, params.notes, params.slur);
     group.setContext(this.context);
     return group;
   }
 
   Accidental(params: { type: string }): Accidental {
-    const accid = new Accidental(params.type);
+    const accid = new Accidental(this.p, params.type);
     accid.setContext(this.context);
     return accid;
   }
@@ -349,7 +353,7 @@ export class Factory {
       ...params,
     };
 
-    const annotation = new Annotation(p.text);
+    const annotation = new Annotation(this.p, p.text);
     annotation.setJustification(p.hJustify);
     annotation.setVerticalJustification(p.vJustify);
     annotation.setFont(p.font);
@@ -374,7 +378,7 @@ export class Factory {
       ...params,
     };
 
-    const chordSymbol = new ChordSymbol();
+    const chordSymbol = new ChordSymbol(this.p);
     chordSymbol.setHorizontal(p.hJustify);
     chordSymbol.setVertical(p.vJustify);
     chordSymbol.setEnableKerning(p.kerning);
@@ -392,7 +396,7 @@ export class Factory {
   }
 
   Articulation(params?: { betweenLines?: boolean; type?: string; position?: string | number }): Articulation {
-    const articulation = new Articulation(params?.type ?? 'a.');
+    const articulation = new Articulation(this.p, params?.type ?? 'a.');
 
     if (params?.position != undefined) articulation.setPosition(params.position);
     if (params?.betweenLines != undefined) articulation.setBetweenLines(params.betweenLines);
@@ -410,7 +414,7 @@ export class Factory {
       accidental: '',
       ...params,
     };
-    const ornament = new Ornament(type);
+    const ornament = new Ornament(this.p, type);
     ornament.setPosition(options.position);
     if (options.upperAccidental) {
       ornament.setUpperAccidental(options.upperAccidental);
@@ -434,7 +438,7 @@ export class Factory {
       ...params,
     };
 
-    const text = new TextDynamics({
+    const text = new TextDynamics(this.p, {
       text: p.text,
       line: p.line,
       duration: p.duration,
@@ -454,14 +458,14 @@ export class Factory {
       ...params,
     };
 
-    const fingering = new FretHandFinger(p.number);
+    const fingering = new FretHandFinger(this.p, p.number);
     fingering.setPosition(p.position);
     fingering.setContext(this.context);
     return fingering;
   }
 
   StringNumber(params: { number: string; position: string }, drawCircle = true): StringNumber {
-    const stringNumber = new StringNumber(params.number);
+    const stringNumber = new StringNumber(this.p, params.number);
     stringNumber.setPosition(params.position);
     stringNumber.setContext(this.context);
     stringNumber.setDrawCircle(drawCircle);
@@ -478,7 +482,7 @@ export class Factory {
 
   MultiMeasureRest(params: MultimeasureRestRenderOptions): MultiMeasureRest {
     const numMeasures = defined(params.number_of_measures, 'NoNumberOfMeasures');
-    const multiMeasureRest = new MultiMeasureRest(numMeasures, params);
+    const multiMeasureRest = new MultiMeasureRest(this.p, numMeasures, params);
     multiMeasureRest.setContext(this.context);
     this.renderQ.push(multiMeasureRest);
     return multiMeasureRest;
@@ -489,13 +493,13 @@ export class Factory {
       time: '4/4',
       ...params,
     };
-    const voice = new Voice(p.time);
+    const voice = new Voice(this.p, p.time);
     this.voices.push(voice);
     return voice;
   }
 
   StaveConnector(params: { top_stave: Stave; bottom_stave: Stave; type: StaveConnectorType }): StaveConnector {
-    const connector = new StaveConnector(params.top_stave, params.bottom_stave);
+    const connector = new StaveConnector(this.p, params.top_stave, params.bottom_stave);
     connector.setType(params.type).setContext(this.context);
     this.renderQ.push(connector);
     return connector;
@@ -512,7 +516,7 @@ export class Factory {
       ...params,
     };
 
-    const tuplet = new Tuplet(p.notes, p.options).setContext(this.context);
+    const tuplet = new Tuplet(this.p, p.notes, p.options).setContext(this.context);
     this.renderQ.push(tuplet);
     return tuplet;
   }
@@ -527,7 +531,7 @@ export class Factory {
       };
     };
   }): Beam {
-    const beam = new Beam(params.notes, params.options?.autoStem).setContext(this.context);
+    const beam = new Beam(this.p, params.notes, params.options?.autoStem).setContext(this.context);
     beam.breakSecondaryAt(params.options?.secondaryBeamBreaks ?? []);
     if (params.options?.partialBeamDirections) {
       Object.entries(params.options?.partialBeamDirections).forEach(([noteIndex, direction]) => {
@@ -539,7 +543,7 @@ export class Factory {
   }
 
   Curve(params: { from: Note; to: Note; options: CurveOptions }): Curve {
-    const curve = new Curve(params.from, params.to, params.options).setContext(this.context);
+    const curve = new Curve(this.p, params.from, params.to, params.options).setContext(this.context);
     this.renderQ.push(curve);
     return curve;
   }
@@ -553,6 +557,7 @@ export class Factory {
     options?: { direction?: number };
   }): StaveTie {
     const tie = new StaveTie(
+      this.p,
       {
         first_note: params.from,
         last_note: params.to,
@@ -575,7 +580,7 @@ export class Factory {
     last_indices: number[];
     options?: { text?: string; font?: FontInfo };
   }): StaveLine {
-    const line = new StaveLine({
+    const line = new StaveLine(this.p, {
       first_note: params.from,
       last_note: params.to,
       first_indices: params.first_indices,
@@ -598,7 +603,7 @@ export class Factory {
       line?: number;
     };
   }): VibratoBracket {
-    const vibratoBracket = new VibratoBracket({
+    const vibratoBracket = new VibratoBracket(this.p, {
       start: params.from,
       stop: params.to,
     });
@@ -623,7 +628,7 @@ export class Factory {
       font?: FontInfo;
     };
   }): TextBracket {
-    const textBracket = new TextBracket({
+    const textBracket = new TextBracket(this.p, {
       start: params.from,
       stop: params.to,
       text: params.text,
@@ -641,7 +646,7 @@ export class Factory {
 
   System(params: SystemOptions = {}): System {
     params.factory = this;
-    const system = new System(params).setContext(this.context);
+    const system = new System(this.p, params).setContext(this.context);
     this.systems.push(system);
     return system;
   }
@@ -659,7 +664,7 @@ export class Factory {
    */
   EasyScore(options: EasyScoreOptions = {}): EasyScore {
     options.factory = this;
-    return new EasyScore(options);
+    return new EasyScore(this.p, options);
   }
 
   PedalMarking(params?: { notes?: StaveNote[]; options?: { style: string } }): PedalMarking {
@@ -671,7 +676,7 @@ export class Factory {
       ...params,
     };
 
-    const pedal = new PedalMarking(p.notes);
+    const pedal = new PedalMarking(this.p, p.notes);
     pedal.setType(PedalMarking.typeString[p.options.style]);
     pedal.setContext(this.context);
     this.renderQ.push(pedal);
@@ -684,7 +689,7 @@ export class Factory {
       ...params,
     };
 
-    const group = new NoteSubGroup(p.notes);
+    const group = new NoteSubGroup(this.p, p.notes);
     group.setContext(this.context);
     return group;
   }

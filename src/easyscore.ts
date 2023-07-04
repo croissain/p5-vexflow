@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { Accidental } from './accidental';
 import { Articulation } from './articulation';
 import { PartialBeamDirection } from './beam';
@@ -9,6 +11,7 @@ import { Factory } from './factory';
 import { FretHandFinger } from './frethandfinger';
 import { Music } from './music';
 import { Note } from './note';
+import P5Base from './P5Base';
 import { Grammar, Match, Parser, Result, Rule, RuleFunction } from './parser';
 import { RenderContext } from './rendercontext';
 import { Stem } from './stem';
@@ -240,7 +243,7 @@ export interface BuilderOptions extends Record<string, any> {
   clef?: string;
 }
 
-export class Builder {
+export class Builder extends P5Base {
   factory: Factory;
   // Initialized by the constructor via this.reset().
   elements!: BuilderElements;
@@ -251,7 +254,8 @@ export class Builder {
   commitHooks: CommitHook[] = [];
   rollingDuration!: string;
 
-  constructor(factory: Factory) {
+  constructor(p: p5, factory: Factory) {
+    super(p);
     this.factory = factory;
     this.reset();
   }
@@ -381,7 +385,7 @@ export class Builder {
     });
 
     // Attach dots.
-    for (let i = 0; i < dots; i++) Dot.buildAndAttach([note], { all: true });
+    for (let i = 0; i < dots; i++) Dot.buildAndAttach(this.p, [note], { all: true });
 
     this.commitHooks.forEach((commitHook) => commitHook(options, note, this));
 
@@ -428,7 +432,7 @@ function setClass(options: { class?: string }, note: StemmableNote) {
 /**
  * EasyScore implements a parser for a simple language to generate VexFlow objects.
  */
-export class EasyScore {
+export class EasyScore extends P5Base {
   static DEBUG: boolean = false;
 
   defaults: EasyScoreDefaults = {
@@ -445,7 +449,8 @@ export class EasyScore {
   grammar!: EasyScoreGrammar;
   parser!: Parser;
 
-  constructor(options: EasyScoreOptions = {}) {
+  constructor(p: p5, options: EasyScoreOptions = {}) {
+    super(p);
     this.setOptions(options);
   }
 
@@ -469,7 +474,7 @@ export class EasyScore {
   setOptions(options: EasyScoreOptions): this {
     // eslint-disable-next-line
     const factory = options.factory!; // ! operator, because options.factory was set in Factory.EasyScore().
-    const builder = options.builder ?? new Builder(factory);
+    const builder = options.builder ?? new Builder(this.p, factory);
 
     this.options = {
       commitHooks: [setId, setClass, Articulation.easyScoreHook, FretHandFinger.easyScoreHook],

@@ -2,6 +2,8 @@
 //
 // ## Description
 
+import p5 from 'p5';
+
 import { ModifierContext } from './modifiercontext';
 import { NoteStruct } from './note';
 import { Stave } from './stave';
@@ -16,7 +18,7 @@ export class GhostNote extends StemmableNote {
     return Category.GhostNote;
   }
 
-  constructor(parameter: string | NoteStruct) {
+  constructor(p: p5, parameter: string | NoteStruct) {
     if (!parameter) {
       throw new RuntimeError('BadArguments', ERROR_MSG);
     }
@@ -31,7 +33,7 @@ export class GhostNote extends StemmableNote {
       throw new RuntimeError('BadArguments', ERROR_MSG);
     }
 
-    super(noteStruct);
+    super(p, noteStruct);
 
     // Note properties
     this.setWidth(0);

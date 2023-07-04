@@ -3,6 +3,8 @@
 //
 // This class implements multiple measure rests.
 
+import p5 from 'p5';
+
 import { Element } from './element';
 import { Glyph } from './glyph';
 import { NoteHead } from './notehead';
@@ -57,9 +59,9 @@ export interface MultimeasureRestRenderOptions {
 
 let semibreve_rest: { glyph_font_scale: number; glyph_code: string; width: number } | undefined;
 
-function get_semibreve_rest() {
+function get_semibreve_rest(p: p5) {
   if (!semibreve_rest) {
-    const noteHead = new NoteHead({ duration: 'w', note_type: 'r' });
+    const noteHead = new NoteHead(p, { duration: 'w', note_type: 'r' });
     semibreve_rest = {
       glyph_font_scale: noteHead.render_options.glyph_font_scale,
       glyph_code: noteHead.glyph_code,
@@ -90,8 +92,8 @@ export class MultiMeasureRest extends Element {
    * @param number_of_measures Number of measures.
    * @param options The options object.
    */
-  constructor(number_of_measures: number, options: MultimeasureRestRenderOptions) {
-    super();
+  constructor(p: p5, number_of_measures: number, options: MultimeasureRestRenderOptions) {
+    super(p);
 
     this.number_of_measures = number_of_measures;
 
@@ -190,7 +192,7 @@ export class MultiMeasureRest extends Element {
     // (e.g., if the system font settings are changed).
     semibreve_rest = undefined;
 
-    const rest = get_semibreve_rest();
+    const rest = get_semibreve_rest(this.p);
     const rest_scale = options.semibreve_rest_glyph_scale;
     const rest_width = rest.width * (rest_scale / rest.glyph_font_scale);
     const glyphs = {
@@ -272,7 +274,7 @@ export class MultiMeasureRest extends Element {
 
     if (options.show_number) {
       const timeSpec = '/' + this.number_of_measures;
-      const timeSig = new TimeSignature(timeSpec, 0, false);
+      const timeSig = new TimeSignature(this.p, timeSpec, 0, false);
       timeSig.point = options.number_glyph_point;
       timeSig.setTimeSig(timeSpec);
       timeSig.setStave(stave);

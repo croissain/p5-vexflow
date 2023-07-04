@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { BoundingBox, Bounds } from './boundingbox';
 import { Clef } from './clef';
 import { Element, ElementStyle } from './element';
@@ -98,8 +100,8 @@ export class Stave extends Element {
     return musicFont.lookupMetric('stave.endPaddingMax');
   }
 
-  constructor(x: number, y: number, width: number, options?: StaveOptions) {
-    super();
+  constructor(p: p5, x: number, y: number, width: number, options?: StaveOptions) {
+    super(p);
 
     this.x = x;
     this.y = y;
@@ -133,9 +135,9 @@ export class Stave extends Element {
     this.resetLines();
 
     // beg bar
-    this.addModifier(new Barline(this.options.left_bar ? BarlineType.SINGLE : BarlineType.NONE));
+    this.addModifier(new Barline(this.p, this.options.left_bar ? BarlineType.SINGLE : BarlineType.NONE));
     // end bar
-    this.addEndModifier(new Barline(this.options.right_bar ? BarlineType.SINGLE : BarlineType.NONE));
+    this.addEndModifier(new Barline(this.p, this.options.right_bar ? BarlineType.SINGLE : BarlineType.NONE));
   }
 
   /** Set default style for ledger lines. */
@@ -303,19 +305,19 @@ export class Stave extends Element {
 
   /** Coda & Segno Symbol functions */
   setRepetitionType(type: number, yShift: number = 0): this {
-    this.modifiers.push(new Repetition(type, this.x, yShift));
+    this.modifiers.push(new Repetition(this.p, type, this.x, yShift));
     return this;
   }
 
   // Volta functions
   setVoltaType(type: number, number_t: string, y: number): this {
-    this.modifiers.push(new Volta(type, number_t, this.x, y));
+    this.modifiers.push(new Volta(this.p, type, number_t, this.x, y));
     return this;
   }
 
   // Section functions
   setSection(section: string, y: number, xOffset = 0, fontSize?: number, drawRect = true) {
-    const staveSection = new StaveSection(section, this.x + xOffset, y, drawRect);
+    const staveSection = new StaveSection(this.p, section, this.x + xOffset, y, drawRect);
     if (fontSize) staveSection.setFontSize(fontSize);
     this.modifiers.push(staveSection);
     return this;
@@ -323,7 +325,7 @@ export class Stave extends Element {
 
   // Tempo functions
   setTempo(tempo: StaveTempoOptions, y: number): this {
-    this.modifiers.push(new StaveTempo(tempo, this.x, y));
+    this.modifiers.push(new StaveTempo(this.p, tempo, this.x, y));
     return this;
   }
 
@@ -337,7 +339,7 @@ export class Stave extends Element {
       justification?: number;
     } = {}
   ): this {
-    this.modifiers.push(new StaveText(text, position, options));
+    this.modifiers.push(new StaveText(this.p, text, position, options));
     return this;
   }
 
@@ -532,7 +534,7 @@ export class Stave extends Element {
     if (position === undefined) {
       position = StaveModifierPosition.BEGIN;
     }
-    this.addModifier(new KeySignature(keySpec, cancelKeySpec).setPosition(position), position);
+    this.addModifier(new KeySignature(this.p, keySpec, cancelKeySpec).setPosition(position), position);
     return this;
   }
 
@@ -555,7 +557,7 @@ export class Stave extends Element {
       this.endClef = clef;
     }
 
-    this.addModifier(new Clef(clef, size, annotation), position);
+    this.addModifier(new Clef(this.p, clef, size, annotation), position);
     return this;
   }
 
@@ -576,7 +578,7 @@ export class Stave extends Element {
    * @returns
    */
   addTimeSignature(timeSpec: string, customPadding?: number, position?: number): this {
-    this.addModifier(new TimeSignature(timeSpec, customPadding), position);
+    this.addModifier(new TimeSignature(this.p, timeSpec, customPadding), position);
     return this;
   }
 
@@ -641,11 +643,11 @@ export class Stave extends Element {
 
     if (begModifiers.length > 1 && begBarline.getType() === BarlineType.REPEAT_BEGIN) {
       begModifiers.push(begModifiers.splice(0, 1)[0]);
-      begModifiers.splice(0, 0, new Barline(BarlineType.SINGLE));
+      begModifiers.splice(0, 0, new Barline(this.p, BarlineType.SINGLE));
     }
 
     if (endModifiers.indexOf(endBarline) > 0) {
-      endModifiers.splice(0, 0, new Barline(BarlineType.NONE));
+      endModifiers.splice(0, 0, new Barline(this.p, BarlineType.NONE));
     }
 
     let width;
@@ -727,7 +729,10 @@ export class Stave extends Element {
     const ctx = this.checkContext();
     this.setRendered();
 
+    this.p.push();
     this.applyStyle();
+    this.p.stroke('red');
+
     ctx.openGroup('stave', this.getAttribute('id'));
     if (!this.formatted) this.format();
 
@@ -741,15 +746,17 @@ export class Stave extends Element {
       y = this.getYForLine(line);
 
       if (this.options.line_config[line].visible) {
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x + width, y);
-        ctx.stroke();
+        // ctx.beginPath();
+        // ctx.moveTo(x, y);
+        // ctx.lineTo(x + width, y);
+        // ctx.stroke();
+        this.p.line(x, y, x + width, y);
       }
     }
 
     ctx.closeGroup();
     this.restoreStyle();
+    this.p.pop();
 
     // Draw the modifiers (bar lines, coda, segno, repeat brackets, etc.)
     for (let i = 0; i < this.modifiers.length; i++) {

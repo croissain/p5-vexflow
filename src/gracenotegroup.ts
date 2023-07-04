@@ -5,6 +5,8 @@
 // This file implements `GraceNoteGroup` which is used to format and
 // render grace notes.
 
+import p5 from 'p5';
+
 import { Beam } from './beam';
 import { Formatter } from './formatter';
 import { Modifier } from './modifier';
@@ -28,6 +30,8 @@ function L(...args: any) {
 
 /** GraceNoteGroup is used to format and render grace notes. */
 export class GraceNoteGroup extends Modifier {
+  static p: p5;
+
   static DEBUG: boolean = false;
 
   static get CATEGORY(): string {
@@ -95,8 +99,8 @@ export class GraceNoteGroup extends Modifier {
   }
 
   //** `GraceNoteGroup` inherits from `Modifier` and is placed inside a `ModifierContext`. */
-  constructor(grace_notes: StemmableNote[], show_slur?: boolean) {
-    super();
+  constructor(p: p5, grace_notes: StemmableNote[], show_slur?: boolean) {
+    super(p);
 
     this.position = Modifier.Position.LEFT;
     this.grace_notes = grace_notes;
@@ -105,7 +109,7 @@ export class GraceNoteGroup extends Modifier {
     this.show_slur = show_slur;
     this.slur = undefined;
 
-    this.voice = new Voice({
+    this.voice = new Voice(this.p, {
       num_beats: 4,
       beat_value: 4,
       resolution: Tables.RESOLUTION,
@@ -136,7 +140,7 @@ export class GraceNoteGroup extends Modifier {
   beamNotes(grace_notes?: StemmableNote[]): this {
     grace_notes = grace_notes || this.grace_notes;
     if (grace_notes.length > 1) {
-      const beam = new Beam(grace_notes);
+      const beam = new Beam(this.p, grace_notes);
 
       beam.render_options.beam_width = 3;
       beam.render_options.partial_beam_length = 4;
@@ -179,7 +183,7 @@ export class GraceNoteGroup extends Modifier {
       const is_stavenote = isStaveNote(note);
       const TieClass = is_stavenote ? StaveTie : TabTie;
 
-      this.slur = new TieClass({
+      this.slur = new TieClass(this.p, {
         last_note: this.grace_notes[0],
         first_note: note,
         first_indices: [0],

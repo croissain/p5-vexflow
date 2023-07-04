@@ -4,6 +4,8 @@
 // This file implements the `Stem` object. Generally this object is handled
 // by its parent `StemmableNote`.
 
+import p5 from 'p5';
+
 import { BoundingBox } from './boundingbox';
 import { Element } from './element';
 import { Tables } from './tables';
@@ -70,8 +72,8 @@ export class Stem extends Element {
   protected stem_extension: number;
   protected renderHeightAdjustment: number;
 
-  constructor(options?: StemOptions) {
-    super();
+  constructor(p: p5, options?: StemOptions) {
+    super(p);
 
     // Default notehead x bounds
     this.x_begin = options?.x_begin || 0;

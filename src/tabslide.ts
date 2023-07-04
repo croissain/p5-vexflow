@@ -4,6 +4,8 @@
 // This class implements varies types of ties between contiguous notes. The
 // ties include: regular ties, hammer ons, pull offs, and slides.
 
+import p5 from 'p5';
+
 import { Font, FontInfo, FontStyle, FontWeight } from './font';
 import { TieNotes } from './stavetie';
 import { TabNote } from './tabnote';
@@ -31,12 +33,12 @@ export class TabSlide extends TabTie {
     return -1;
   }
 
-  static createSlideUp(notes: TieNotes): TabSlide {
-    return new TabSlide(notes, TabSlide.SLIDE_UP);
+  static createSlideUp(p: p5, notes: TieNotes): TabSlide {
+    return new TabSlide(p, notes, TabSlide.SLIDE_UP);
   }
 
-  static createSlideDown(notes: TieNotes): TabSlide {
-    return new TabSlide(notes, TabSlide.SLIDE_DOWN);
+  static createSlideDown(p: p5, notes: TieNotes): TabSlide {
+    return new TabSlide(p, notes, TabSlide.SLIDE_DOWN);
   }
 
   /**
@@ -54,8 +56,8 @@ export class TabSlide extends TabTie {
    *
    * @param direction TabSlide.SLIDE_UP or TabSlide.SLIDE_DOWN
    */
-  constructor(notes: TieNotes, direction?: number) {
-    super(notes, 'sl.');
+  constructor(p: p5, notes: TieNotes, direction?: number) {
+    super(p, notes, 'sl.');
 
     // Determine the direction automatically if it is not provided.
     if (!direction) {

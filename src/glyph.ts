@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { BoundingBox } from './boundingbox';
 import { BoundingBoxComputation } from './boundingboxcomputation';
 import { Element } from './element';
@@ -387,8 +389,8 @@ export class Glyph extends Element {
    * @param point
    * @param options
    */
-  constructor(code: string, point: number, options?: GlyphOptions) {
-    super();
+  constructor(p: p5, code: string, point: number, options?: GlyphOptions) {
+    super(p);
 
     this.code = code;
     this.point = point;

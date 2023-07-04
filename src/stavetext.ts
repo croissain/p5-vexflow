@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // Author Taehoon Moon 2014
 
+import p5 from 'p5';
+
 import { Font, FontInfo, FontStyle, FontWeight } from './font';
 import { Stave } from './stave';
 import { StaveModifier, StaveModifierPosition } from './stavemodifier';
@@ -31,11 +33,12 @@ export class StaveText extends StaveModifier {
   protected shift_y?: number;
 
   constructor(
+    p: p5,
     text: string,
     position: number,
     options: { shift_x?: number; shift_y?: number; justification?: number } = {}
   ) {
-    super();
+    super(p);
 
     this.setWidth(16);
     this.text = text;

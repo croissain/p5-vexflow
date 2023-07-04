@@ -8,6 +8,8 @@
 //
 // See `tests/gracetabnote_tests.ts` for usage examples.
 
+import p5 from 'p5';
+
 import { Font } from './font';
 import { TabNote, TabNoteStruct } from './tabnote';
 import { Category } from './typeguard';
@@ -17,8 +19,8 @@ export class GraceTabNote extends TabNote {
     return Category.GraceTabNote;
   }
 
-  constructor(noteStruct: TabNoteStruct) {
-    super(noteStruct, false);
+  constructor(p: p5, noteStruct: TabNoteStruct) {
+    super(p, noteStruct, false);
 
     this.render_options = {
       ...this.render_options,

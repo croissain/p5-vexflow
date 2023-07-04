@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { Element } from './element';
 import { Font, FontInfo, FontStyle, FontWeight } from './font';
 import { Glyph } from './glyph';
@@ -20,9 +22,9 @@ function L(...args: any[]) {
  * at the coordinates `x` and `y. Takes into account the glyph data
  * coordinate shifts.
  */
-function drawPedalGlyph(name: string, context: RenderContext, x: number, y: number, point: number): void {
+function drawPedalGlyph(p: p5, name: string, context: RenderContext, x: number, y: number, point: number): void {
   const glyph_data = PedalMarking.GLYPHS[name];
-  const glyph = new Glyph(glyph_data.code, point, { category: 'pedalMarking' });
+  const glyph = new Glyph(p, glyph_data.code, point, { category: 'pedalMarking' });
   // Center the middle of the glyph with the middle of the note head (Tables.STAVE_LINE_DISTANCE / 2)
   glyph.render(context, x - (glyph.getMetrics().width - Tables.STAVE_LINE_DISTANCE) / 2, y);
 }
@@ -89,29 +91,29 @@ export class PedalMarking extends Element {
    * Create a sustain pedal marking. Returns the defaults PedalMarking.
    * Which uses the traditional "Ped" and "*"" markings.
    */
-  static createSustain(notes: StaveNote[]): PedalMarking {
-    const pedal = new PedalMarking(notes);
+  static createSustain(p: p5, notes: StaveNote[]): PedalMarking {
+    const pedal = new PedalMarking(p, notes);
     return pedal;
   }
 
   /** Create a sostenuto pedal marking */
-  static createSostenuto(notes: StaveNote[]): PedalMarking {
-    const pedal = new PedalMarking(notes);
+  static createSostenuto(p: p5, notes: StaveNote[]): PedalMarking {
+    const pedal = new PedalMarking(p, notes);
     pedal.setType(PedalMarking.type.MIXED);
     pedal.setCustomText('Sost. Ped.');
     return pedal;
   }
 
   /** Create an una corda pedal marking */
-  static createUnaCorda(notes: StaveNote[]): PedalMarking {
-    const pedal = new PedalMarking(notes);
+  static createUnaCorda(p: p5, notes: StaveNote[]): PedalMarking {
+    const pedal = new PedalMarking(p, notes);
     pedal.setType(PedalMarking.type.TEXT);
     pedal.setCustomText('una corda', 'tre corda');
     return pedal;
   }
 
-  constructor(notes: StaveNote[]) {
-    super();
+  constructor(p: p5, notes: StaveNote[]) {
+    super(p);
 
     this.notes = notes;
     this.type = PedalMarking.type.TEXT;
@@ -202,7 +204,7 @@ export class PedalMarking extends Element {
             x_shift = text_width / 2 + this.render_options.text_margin_right;
           } else {
             // Render the Ped glyph in position
-            drawPedalGlyph('pedal_depress', ctx, x, y, point);
+            drawPedalGlyph(this.p, 'pedal_depress', ctx, x, y, point);
             x_shift = 20 + this.render_options.text_margin_right;
           }
         } else {
@@ -257,14 +259,14 @@ export class PedalMarking extends Element {
           text_width = ctx.measureText(this.custom_depress_text).width;
           ctx.fillText(this.custom_depress_text, x - text_width / 2, y);
         } else {
-          drawPedalGlyph('pedal_depress', ctx, x, y, point);
+          drawPedalGlyph(this.p, 'pedal_depress', ctx, x, y, point);
         }
       } else {
         if (this.custom_release_text) {
           text_width = ctx.measureText(this.custom_release_text).width;
           ctx.fillText(this.custom_release_text, x - text_width / 2, y);
         } else {
-          drawPedalGlyph('pedal_release', ctx, x, y, point);
+          drawPedalGlyph(this.p, 'pedal_release', ctx, x, y, point);
         }
       }
     });

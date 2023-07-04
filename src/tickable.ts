@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { Element } from './element';
 import { Fraction } from './fraction';
 import { Modifier } from './modifier';
@@ -56,8 +58,8 @@ export abstract class Tickable extends Element {
   private _preFormatted: boolean = false;
   private _postFormatted: boolean = false;
 
-  constructor() {
-    super();
+  constructor(p: p5) {
+    super(p);
 
     // These properties represent the duration of
     // this tickable element.

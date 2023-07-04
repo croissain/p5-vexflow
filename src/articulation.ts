@@ -2,6 +2,8 @@
 // Author: Larry Kuhns.
 // MIT License
 
+import p5 from 'p5';
+
 import { Builder } from './easyscore';
 import { Glyph } from './glyph';
 import { Modifier } from './modifier';
@@ -301,8 +303,8 @@ export class Articulation extends Modifier {
    * - Glyph codes ending with 'Above' will be positioned ABOVE
    * - Glyph codes ending with 'Below' will be positioned BELOW
    */
-  constructor(type: string) {
-    super();
+  constructor(p: p5, type: string) {
+    super(p);
 
     this.type = type;
     this.position = ABOVE;
@@ -323,7 +325,7 @@ export class Articulation extends Modifier {
     }
     const code =
       (this.position === ABOVE ? this.articulation.aboveCode : this.articulation.belowCode) || this.articulation.code;
-    this.glyph = new Glyph(code ?? '', this.render_options.font_scale);
+    this.glyph = new Glyph(this.p, code ?? '', this.render_options.font_scale);
     defined(this.glyph, 'ArgumentError', `Articulation not found: ${this.type}`);
 
     this.setWidth(defined(this.glyph.getMetrics().width));

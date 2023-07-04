@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // Author Mark Meeus 2019
 
+import p5 from 'p5';
+
 import { KeySignature } from './keysignature';
 import { ModifierContext } from './modifiercontext';
 import { Note } from './note';
@@ -13,10 +15,10 @@ export class KeySigNote extends Note {
 
   protected keySignature: KeySignature;
 
-  constructor(keySpec: string, cancelKeySpec?: string, alterKeySpec?: string[]) {
-    super({ duration: 'b' });
+  constructor(p: p5, keySpec: string, cancelKeySpec?: string, alterKeySpec?: string[]) {
+    super(p, { duration: 'b' });
 
-    this.keySignature = new KeySignature(keySpec, cancelKeySpec, alterKeySpec);
+    this.keySignature = new KeySignature(this.p, keySpec, cancelKeySpec, alterKeySpec);
 
     // Note properties
     this.ignore_ticks = true;

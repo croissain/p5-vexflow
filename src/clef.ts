@@ -2,6 +2,8 @@
 // Co-author: Benjamin W. Bohl
 // MIT License
 
+import p5 from 'p5';
+
 import { Glyph } from './glyph';
 import { Stave } from './stave';
 import { StaveModifier, StaveModifierPosition } from './stavemodifier';
@@ -123,8 +125,8 @@ export class Clef extends StaveModifier {
   }
 
   /** Create a new clef. */
-  constructor(type: string, size?: string, annotation?: string) {
-    super();
+  constructor(p: p5, type: string, size?: string, annotation?: string) {
+    super(p);
 
     this.setPosition(StaveModifierPosition.BEGIN);
     this.setType(type, size, annotation);
@@ -153,7 +155,7 @@ export class Clef extends StaveModifier {
 
       this.annotation = { code, point, line, x_shift };
 
-      this.attachment = new Glyph(this.annotation.code, this.annotation.point);
+      this.attachment = new Glyph(this.p, this.annotation.code, this.annotation.point);
       this.attachment.metrics.x_max = 0;
       this.attachment.setXShift(this.annotation.x_shift);
     } else {

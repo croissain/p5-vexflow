@@ -4,6 +4,8 @@
 // `StemmableNote` is an abstract interface for notes with optional stems.
 // Examples of stemmable notes are `StaveNote` and `TabNote`
 
+import p5 from 'p5';
+
 import { Glyph, GlyphProps } from './glyph';
 import { Note, NoteStruct } from './note';
 import { Stem, StemOptions } from './stem';
@@ -22,8 +24,8 @@ export abstract class StemmableNote extends Note {
   protected flag?: Glyph;
   protected stem_extension_override?: number;
 
-  constructor(noteStruct: NoteStruct) {
-    super(noteStruct);
+  constructor(p: p5, noteStruct: NoteStruct) {
+    super(p, noteStruct);
   }
 
   // Get and set the note's `Stem`
@@ -46,7 +48,7 @@ export abstract class StemmableNote extends Note {
 
   // Builds and sets a new stem
   buildStem(): this {
-    const stem = new Stem();
+    const stem = new Stem(this.p);
     this.setStem(stem);
     return this;
   }
@@ -58,7 +60,7 @@ export abstract class StemmableNote extends Note {
       const flagCode =
         this.getStemDirection() === Stem.DOWN ? glyphProps.code_flag_downstem : glyphProps.code_flag_upstem;
 
-      if (flagCode) this.flag = new Glyph(flagCode, this.render_options.glyph_font_scale, { category });
+      if (flagCode) this.flag = new Glyph(this.p, flagCode, this.render_options.glyph_font_scale, { category });
     }
   }
 
@@ -260,7 +262,7 @@ export abstract class StemmableNote extends Note {
     this.checkContext();
     this.setRendered();
 
-    this.setStem(new Stem(stemOptions));
+    this.setStem(new Stem(this.p, stemOptions));
     this.stem?.setContext(this.getContext()).draw();
   }
 }

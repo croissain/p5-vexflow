@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // Author Taehoon Moon 2014
 
+import p5 from 'p5';
+
 import { ModifierContext } from './modifiercontext';
 import { Note } from './note';
 import { TimeSignature } from './timesignature';
@@ -13,10 +15,10 @@ export class TimeSigNote extends Note {
 
   protected timeSig: TimeSignature;
 
-  constructor(timeSpec: string, customPadding?: number) {
-    super({ duration: 'b' });
+  constructor(p: p5, timeSpec: string, customPadding?: number) {
+    super(p, { duration: 'b' });
 
-    this.timeSig = new TimeSignature(timeSpec, customPadding);
+    this.timeSig = new TimeSignature(this.p, timeSpec, customPadding);
     this.setWidth(this.timeSig.getGlyph().getMetrics().width);
 
     // Note properties

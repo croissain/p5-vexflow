@@ -9,6 +9,8 @@
 //
 // See `tests/chordsymbol_tests.ts` for usage examples.
 
+import p5 from 'p5';
+
 import { Font, FontInfo, FontStyle, FontWeight } from './font';
 import { Glyph } from './glyph';
 import { Modifier } from './modifier';
@@ -407,8 +409,8 @@ export class ChordSymbol extends Modifier {
   // Initialized by the constructor via this.setFont().
   protected textFormatter!: TextFormatter;
 
-  constructor() {
-    super();
+  constructor(p: p5) {
+    super(p);
     this.resetFont();
   }
 
@@ -561,7 +563,7 @@ export class ChordSymbol extends Modifier {
     if (symbolType === SymbolTypes.GLYPH && typeof params.glyph === 'string') {
       const glyphArgs = ChordSymbol.glyphs[params.glyph];
       const glyphPoints = 20;
-      symbolBlock.glyph = new Glyph(glyphArgs.code, glyphPoints, { category: 'chordSymbol' });
+      symbolBlock.glyph = new Glyph(this.p, glyphArgs.code, glyphPoints, { category: 'chordSymbol' });
     } else if (symbolType === SymbolTypes.TEXT) {
       symbolBlock.width = this.textFormatter.getWidthForTextInEm(symbolBlock.text);
     } else if (symbolType === SymbolTypes.LINE) {

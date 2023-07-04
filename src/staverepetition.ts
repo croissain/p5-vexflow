@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // Author Larry Kuhns 2011
 
+import p5 from 'p5';
+
 import { Font, FontInfo, FontStyle, FontWeight } from './font';
 import { Glyph } from './glyph';
 import { Stave } from './stave';
@@ -41,8 +43,8 @@ export class Repetition extends StaveModifier {
   protected x_shift: number;
   protected y_shift: number;
 
-  constructor(type: number, x: number, y_shift: number) {
-    super();
+  constructor(p: p5, type: number, x: number, y_shift: number) {
+    super(p);
 
     this.symbol_type = type;
     this.x = x;

@@ -7,6 +7,8 @@
 // render notes as a `Modifier`
 // ex) ClefNote, TimeSigNote and BarNote.
 
+import p5 from 'p5';
+
 import { Formatter } from './formatter';
 import { Modifier } from './modifier';
 import { ModifierContextState } from './modifiercontext';
@@ -41,8 +43,8 @@ export class NoteSubGroup extends Modifier {
   protected formatter: Formatter;
   protected voice: Voice;
 
-  constructor(subNotes: Note[]) {
-    super();
+  constructor(p: p5, subNotes: Note[]) {
+    super(p);
 
     this.position = Modifier.Position.LEFT;
     this.subNotes = subNotes;
@@ -52,7 +54,7 @@ export class NoteSubGroup extends Modifier {
     this.width = 0;
 
     this.formatter = new Formatter();
-    this.voice = new Voice({
+    this.voice = new Voice(this.p, {
       num_beats: 4,
       beat_value: 4,
       resolution: Tables.RESOLUTION,

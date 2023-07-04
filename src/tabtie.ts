@@ -4,6 +4,8 @@
 // This class implements varies types of ties between contiguous notes. The
 // ties include: regular ties, hammer ons, pull offs, and slides.
 
+import p5 from 'p5';
+
 import { StaveTie, TieNotes } from './stavetie';
 import { Category } from './typeguard';
 
@@ -12,12 +14,12 @@ export class TabTie extends StaveTie {
     return Category.TabTie;
   }
 
-  static createHammeron(notes: TieNotes): TabTie {
-    return new TabTie(notes, 'H');
+  static createHammeron(p: p5, notes: TieNotes): TabTie {
+    return new TabTie(p, notes, 'H');
   }
 
-  static createPulloff(notes: TieNotes): TabTie {
-    return new TabTie(notes, 'P');
+  static createPulloff(p: p5, notes: TieNotes): TabTie {
+    return new TabTie(p, notes, 'P');
   }
 
   /**
@@ -31,8 +33,8 @@ export class TabTie extends StaveTie {
    *
    * @param text
    */
-  constructor(notes: TieNotes, text?: string) {
-    super(notes, text);
+  constructor(p: p5, notes: TieNotes, text?: string) {
+    super(p, notes, text);
 
     this.render_options.cp1 = 9;
     this.render_options.cp2 = 11;

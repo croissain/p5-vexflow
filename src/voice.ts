@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { BoundingBox } from './boundingbox';
 import { Element } from './element';
 import { Fraction } from './fraction';
@@ -56,8 +58,8 @@ export class Voice extends Element {
   protected readonly tickables: Tickable[] = [];
   protected readonly time: Required<VoiceTime>;
 
-  constructor(time?: VoiceTime | string) {
-    super();
+  constructor(p: p5, time?: VoiceTime | string) {
+    super(p);
 
     this.options = {
       softmaxFactor: Tables.SOFTMAX_FACTOR,

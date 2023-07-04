@@ -8,6 +8,8 @@
 //
 // See `tests/stavenote_tests.ts` for usage examples.
 
+import p5 from 'p5';
+
 import { Beam } from './beam';
 import { BoundingBox } from './boundingbox';
 import { ElementStyle } from './element';
@@ -404,8 +406,8 @@ export class StaveNote extends StemmableNote {
   // Sorted variant of keyProps used internally
   private sortedKeyProps: { keyProps: KeyProps; index: number }[] = [];
 
-  constructor(noteStruct: StaveNoteStruct) {
-    super(noteStruct);
+  constructor(p: p5, noteStruct: StaveNoteStruct) {
+    super(p, noteStruct);
 
     this.ledgerLineStyle = {};
 
@@ -482,7 +484,7 @@ export class StaveNote extends StemmableNote {
 
   // Builds a `Stem` for the note
   buildStem(): this {
-    this.setStem(new Stem({ hide: !!this.isRest() }));
+    this.setStem(new Stem(this.p, { hide: !!this.isRest() }));
     return this;
   }
 
@@ -532,7 +534,7 @@ export class StaveNote extends StemmableNote {
       }
       lastLine = line;
 
-      const notehead = new NoteHead({
+      const notehead = new NoteHead(this.p, {
         duration: this.duration,
         note_type: this.noteType,
         displaced,
@@ -1177,7 +1179,7 @@ export class StaveNote extends StemmableNote {
     const ctx = this.checkContext();
 
     if (stemOptions) {
-      this.setStem(new Stem(stemOptions));
+      this.setStem(new Stem(this.p, stemOptions));
     }
 
     // If we will render a flag, we shorten the stem so that the tip

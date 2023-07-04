@@ -1,5 +1,7 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 
+import p5 from 'p5';
+
 import { StaveNote, StaveNoteStruct } from './stavenote';
 import { Stem } from './stem';
 import { Tables } from './tables';
@@ -26,8 +28,8 @@ export class GraceNote extends StaveNote {
   protected slash: boolean;
   protected slur: boolean;
 
-  constructor(noteStruct: GraceNoteStruct) {
-    super({
+  constructor(p: p5, noteStruct: GraceNoteStruct) {
+    super(p, {
       glyph_font_scale: Tables.NOTATION_FONT_SCALE * GraceNote.SCALE,
       stroke_px: GraceNote.LEDGER_LINE_OFFSET,
       ...noteStruct,

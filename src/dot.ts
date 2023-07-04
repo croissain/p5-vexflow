@@ -3,6 +3,8 @@
 //
 // This class implements dot modifiers for notes.
 
+import p5 from 'p5';
+
 import { Modifier } from './modifier';
 import { ModifierContextState } from './modifiercontext';
 import { Note } from './note';
@@ -23,20 +25,20 @@ export class Dot extends Modifier {
   }
 
   /** Add a dot on the specified keys to the notes. */
-  static buildAndAttach(notes: Note[], options?: { index?: number; all?: boolean }): void {
+  static buildAndAttach(p: p5, notes: Note[], options?: { index?: number; all?: boolean }): void {
     for (const note of notes) {
       if (options?.all) {
         for (let i = 0; i < note.keys.length; i++) {
-          const dot = new Dot();
+          const dot = new Dot(p);
           dot.setDotShiftY(note.glyphProps.dot_shiftY);
           note.addModifier(dot, i);
         }
       } else if (options?.index != undefined) {
-        const dot = new Dot();
+        const dot = new Dot(p);
         dot.setDotShiftY(note.glyphProps.dot_shiftY);
         note.addModifier(dot, options?.index);
       } else {
-        const dot = new Dot();
+        const dot = new Dot(p);
         dot.setDotShiftY(note.glyphProps.dot_shiftY);
         note.addModifier(dot, 0);
       }
@@ -132,8 +134,8 @@ export class Dot extends Modifier {
     return true;
   }
 
-  constructor() {
-    super();
+  constructor(p: p5) {
+    super(p);
 
     this.position = Modifier.Position.RIGHT;
 

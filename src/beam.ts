@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { Element } from './element';
 import { Fraction } from './fraction';
 import { Note } from './note';
@@ -153,8 +155,8 @@ export class Beam extends Element {
    * @param stem_direction a stem direction to apply to the entire voice
    * @param groups an array of `Fraction` representing beat groupings for the beam
    */
-  static applyAndGetBeams(voice: Voice, stem_direction?: number, groups?: Fraction[]): Beam[] {
-    return Beam.generateBeams(voice.getTickables() as StemmableNote[], { groups, stem_direction });
+  static applyAndGetBeams(p: p5, voice: Voice, stem_direction?: number, groups?: Fraction[]): Beam[] {
+    return Beam.generateBeams(p, voice.getTickables() as StemmableNote[], { groups, stem_direction });
   }
 
   /**
@@ -183,6 +185,7 @@ export class Beam extends Element {
    *
    */
   static generateBeams(
+    p: p5,
     notes: StemmableNote[],
     config: {
       flat_beam_offset?: number;
@@ -411,7 +414,7 @@ export class Beam extends Element {
     // Create a Vex.Flow.Beam from each group of notes to be beamed
     const beams: Beam[] = [];
     beamedNoteGroups.forEach((group) => {
-      const beam = new Beam(group);
+      const beam = new Beam(p, group);
 
       if (config.show_stemlets) {
         beam.render_options.show_stemlets = true;
@@ -448,8 +451,8 @@ export class Beam extends Element {
     return beams;
   }
 
-  constructor(notes: StemmableNote[], auto_stem: boolean = false) {
-    super();
+  constructor(p: p5, notes: StemmableNote[], auto_stem: boolean = false) {
+    super(p);
 
     if (!notes || notes.length === 0) {
       throw new RuntimeError('BadArguments', 'No notes provided for beam.');

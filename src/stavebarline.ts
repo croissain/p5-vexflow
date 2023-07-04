@@ -2,6 +2,8 @@
 //
 // Author Larry Kuhns 2011
 
+import p5 from 'p5';
+
 import { Stave } from './stave';
 import { LayoutMetrics, StaveModifier, StaveModifierPosition } from './stavemodifier';
 import { Tables } from './tables';
@@ -45,8 +47,8 @@ export class Barline extends StaveModifier {
     };
   }
 
-  constructor(type: BarlineType | string) {
-    super();
+  constructor(p: p5, type: BarlineType | string) {
+    super(p);
     this.thickness = Tables.STAVE_LINE_THICKNESS;
 
     const TYPE = BarlineType;

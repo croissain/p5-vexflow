@@ -2,6 +2,8 @@
 // Author: Mike Corrigan <corrigan@gmail.com>
 // MIT License
 
+import p5 from 'p5';
+
 import { Glyph } from './glyph';
 import { GraceNote } from './gracenote';
 import { Modifier } from './modifier';
@@ -26,8 +28,8 @@ export class Tremolo extends Modifier {
   /**
    * @param num number of bars
    */
-  constructor(num: number) {
-    super();
+  constructor(p: p5, num: number) {
+    super(p);
 
     this.num = num;
     this.position = Modifier.Position.CENTER;

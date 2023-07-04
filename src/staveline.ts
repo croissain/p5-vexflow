@@ -8,6 +8,8 @@
 // can format a `StaveLine` with arrows or colors for more pedagogical
 // purposes, such as diagrams.
 
+import p5 from 'p5';
+
 import { Element } from './element';
 import { FontInfo } from './font';
 import { RenderContext } from './rendercontext';
@@ -101,8 +103,8 @@ export class StaveLine extends Element {
   //    last_indices: [n1, n2, n3]
   //  }
   //  ```
-  constructor(notes: StaveLineNotes) {
-    super();
+  constructor(p: p5, notes: StaveLineNotes) {
+    super(p);
 
     this.setNotes(notes);
 

@@ -1,5 +1,7 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
+import p5 from 'p5';
+
 import { Element } from './element';
 import { FontInfo } from './font';
 import { Modifier, ModifierPosition } from './modifier';
@@ -187,8 +189,8 @@ export class Annotation extends Modifier {
    * in a `ModifierContext`.
    * Create a new `Annotation` with the string `text`.
    */
-  constructor(text: string) {
-    super();
+  constructor(p: p5, text: string) {
+    super(p);
 
     this.text = text;
     this.horizontalJustification = AnnotationHorizontalJustify.CENTER;

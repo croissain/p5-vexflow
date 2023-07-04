@@ -2,6 +2,8 @@
 // Author Taehoon Moon 2014
 // MIT License
 
+import p5 from 'p5';
+
 import { Clef, ClefAnnotatiomType, ClefType } from './clef';
 import { Glyph } from './glyph';
 import { Note } from './note';
@@ -18,10 +20,10 @@ export class ClefNote extends Note {
   protected type: string;
   protected size: string;
 
-  constructor(type: string, size?: string, annotation?: string) {
-    super({ duration: 'b' });
+  constructor(p: p5, type: string, size?: string, annotation?: string) {
+    super(p, { duration: 'b' });
     this.type = type;
-    const clef = new Clef(type, size, annotation);
+    const clef = new Clef(this.p, type, size, annotation);
     this.clef = clef.clef;
     this.annotation = clef.annotation;
     this.size = size === undefined ? 'default' : size;
@@ -35,7 +37,7 @@ export class ClefNote extends Note {
   setType(type: string, size: string, annotation: string): this {
     this.type = type;
     this.size = size;
-    const clef = new Clef(type, size, annotation);
+    const clef = new Clef(this.p, type, size, annotation);
     this.clef = clef.clef;
     this.annotation = clef.annotation;
     this.setWidth(Glyph.getWidth(this.clef.code, Clef.getPoint(this.size), `clefNote_${this.size}`));
@@ -66,7 +68,7 @@ export class ClefNote extends Note {
 
     // If the Vex.Flow.Clef has an annotation, such as 8va, draw it.
     if (this.annotation !== undefined) {
-      const attachment = new Glyph(this.annotation.code, this.annotation.point);
+      const attachment = new Glyph(this.p, this.annotation.code, this.annotation.point);
       attachment.setContext(ctx);
       attachment.setStave(stave);
       attachment.setYShift(stave.getYForLine(this.annotation.line) - stave.getYForGlyphs());

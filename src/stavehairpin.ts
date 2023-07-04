@@ -6,6 +6,8 @@
 // This class implements hairpins between notes.
 // Hairpins can be either crescendo or decrescendo.
 
+import p5 from 'p5';
+
 import { Element } from './element';
 import { Modifier } from './modifier';
 import { Note } from './note';
@@ -58,6 +60,7 @@ export class StaveHairpin extends Element {
    *
    **/
   static FormatByTicksAndDraw(
+    p: p5,
     ctx: RenderContext,
     formatter: { pixelsPerTick: number },
     notes: Record<string, Note>,
@@ -84,6 +87,7 @@ export class StaveHairpin extends Element {
     };
 
     new StaveHairpin(
+      p,
       {
         first_note: notes.first_note,
         last_note: notes.last_note,
@@ -108,8 +112,8 @@ export class StaveHairpin extends Element {
    *  }
    * @param {!Object} type The type of hairpin
    */
-  constructor(notes: Record<string, Note>, type: number) {
-    super();
+  constructor(p: p5, notes: Record<string, Note>, type: number) {
+    super(p);
     this.setNotes(notes);
     this.hairpin = type;
     this.position = Modifier.Position.BELOW;

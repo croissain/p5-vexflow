@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { Element } from './element';
 import { ModifierContext } from './modifiercontext';
 import { Note } from './note';
@@ -67,8 +69,8 @@ export class Modifier extends Element {
   private spacingFromNextModifier: number;
   private modifierContext?: ModifierContext;
 
-  constructor() {
-    super();
+  constructor(p: p5) {
+    super(p);
 
     this.width = 0;
 

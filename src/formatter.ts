@@ -1,6 +1,8 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
+
 import { Beam } from './beam';
 import { BoundingBox } from './boundingbox';
 import { Font } from './font';
@@ -267,6 +269,7 @@ export class Formatter {
    *    * `align_rests` aligns rests with nearby notes.
    */
   static FormatAndDraw(
+    p: p5,
     ctx: RenderContext,
     stave: Stave,
     notes: StemmableNote[],
@@ -284,10 +287,10 @@ export class Formatter {
     }
 
     // Start by creating a voice and adding all the notes to it.
-    const voice = new Voice(Tables.TIME4_4).setMode(Voice.Mode.SOFT).addTickables(notes);
+    const voice = new Voice(p, Tables.TIME4_4).setMode(Voice.Mode.SOFT).addTickables(notes);
 
     // Then create beams, if requested.
-    const beams = options.auto_beam ? Beam.applyAndGetBeams(voice) : [];
+    const beams = options.auto_beam ? Beam.applyAndGetBeams(p, voice) : [];
 
     // Instantiate a `Formatter` and format the notes.
     new Formatter()
@@ -316,6 +319,7 @@ export class Formatter {
    *    * `align_rests` aligns rests with nearby notes.
    */
   static FormatAndDrawTab(
+    p: p5,
     ctx: RenderContext,
     tabstave: TabStave,
     stave: Stave,
@@ -336,13 +340,13 @@ export class Formatter {
     }
 
     // Create a `4/4` voice for `notes`.
-    const notevoice = new Voice(Tables.TIME4_4).setMode(Voice.Mode.SOFT).addTickables(notes);
+    const notevoice = new Voice(p, Tables.TIME4_4).setMode(Voice.Mode.SOFT).addTickables(notes);
 
     // Create a `4/4` voice for `tabnotes`.
-    const tabvoice = new Voice(Tables.TIME4_4).setMode(Voice.Mode.SOFT).addTickables(tabnotes);
+    const tabvoice = new Voice(p, Tables.TIME4_4).setMode(Voice.Mode.SOFT).addTickables(tabnotes);
 
     // Then create beams, if requested.
-    const beams = opts.auto_beam ? Beam.applyAndGetBeams(notevoice) : [];
+    const beams = opts.auto_beam ? Beam.applyAndGetBeams(p, notevoice) : [];
 
     // Instantiate a `Formatter` and align tab and stave notes.
     new Formatter()
@@ -356,7 +360,7 @@ export class Formatter {
     beams.forEach((beam) => beam.setContext(ctx).draw());
 
     // Draw a connector between tab and note staves.
-    new StaveConnector(stave, tabstave).setContext(ctx).draw();
+    new StaveConnector(p, stave, tabstave).setContext(ctx).draw();
   }
 
   /**
