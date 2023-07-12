@@ -176,9 +176,11 @@ export class Barline extends StaveModifier {
     const topY = stave.getTopLineTopY();
     const botY = stave.getBottomLineBottomY();
     if (double_bar) {
-      staveCtx.fillRect(x - 3, topY, 1, botY - topY);
+      // staveCtx.fillRect(x - 3, topY, 1, botY - topY);
+      this.p.rect(x - 3, topY, 0.5, botY - topY);
     }
-    staveCtx.fillRect(x, topY, 1, botY - topY);
+    // staveCtx.fillRect(x, topY, 1, botY - topY);
+    this.p.rect(x, topY, 1, botY - topY);
   }
 
   drawVerticalEndBar(stave: Stave, x: number): void {
@@ -186,7 +188,9 @@ export class Barline extends StaveModifier {
     const topY = stave.getTopLineTopY();
     const botY = stave.getBottomLineBottomY();
     staveCtx.fillRect(x - 5, topY, 1, botY - topY);
+    this.p.rect(x - 5, topY, 1, botY - topY);
     staveCtx.fillRect(x - 2, topY, 3, botY - topY);
+    this.p.rect(x - 2, topY, 3, botY - topY);
   }
 
   drawRepeatBar(stave: Stave, x: number, begin: boolean): void {
@@ -201,7 +205,9 @@ export class Barline extends StaveModifier {
     }
 
     staveCtx.fillRect(x + x_shift, topY, 1, botY - topY);
+    this.p.rect(x + x_shift, topY, 1, botY - topY);
     staveCtx.fillRect(x - 2, topY, 3, botY - topY);
+    this.p.rect(x - 2, topY, 3, botY - topY);
 
     const dot_radius = 2;
 

@@ -173,6 +173,16 @@ export class NoteHead extends Note {
         : this.glyphProps.getWidth(this.render_options.glyph_font_scale)
     );
   }
+
+  setCustomStyle(style: any) {
+    if (style) {
+      this.p.drawingContext.strokeStyle = style.strokeStyle;
+      this.p.drawingContext.fillStyle = style.fillStyle;
+    }
+    this.p.drawingContext.strokeStyle = 'black';
+    this.p.drawingContext.fillStyle = 'black';
+  }
+
   /** Get the width of the notehead. */
   getWidth(): number {
     return this.width;
@@ -253,6 +263,13 @@ export class NoteHead extends Note {
     return this;
   }
 
+  setColor(color?: string): void {
+    if (color) {
+      this.p.drawingContext.fillStyle = color;
+    }
+    this.p.drawingContext.fillStyle = 'black';
+  }
+
   /** Pre-render formatting. */
   preFormat(): this {
     if (this.preFormatted) return this;
@@ -266,7 +283,8 @@ export class NoteHead extends Note {
 
   /** Draw the notehead. */
   draw(): void {
-    const ctx = this.checkContext();
+    // const ctx = this.checkContext();
+    const ctx = this.p.drawingContext;
     this.setRendered();
 
     let head_x = this.getAbsoluteX();
@@ -282,6 +300,38 @@ export class NoteHead extends Note {
     const y = this.y;
 
     L("Drawing note head '", this.noteType, this.duration, "' at", head_x, y);
+
+    this.p.push();
+    // let cx = head_x;
+    // let cy = y;
+    // for (let i = 0; i < 2000; i++) {
+    //   this.p.push();
+    //   this.p.noStroke();
+    //   // this.p.fill('#00000050');
+    //   // line(x, y, x + 25, y + 25);
+    //   // rotate(random())
+    //   // this.p.rect(cx, cy, this.p.random(10, 20), this.p.random(10, 20));
+    //   const r = this.p.floor(this.p.random(4));
+    //   switch (r) {
+    //     case 0:
+    //       cx = cx + 1;
+    //       break;
+    //     case 1:
+    //       cx = cx - 1;
+    //       break;
+    //     case 2:
+    //       cy = cy + 1;
+    //       break;
+    //     case 3:
+    //       cy = cy - 1;
+    //       break;
+    //   }
+    //   this.p.pop();
+    // }
+    this.p.fill(`#00000050`);
+    this.p.strokeWeight(0.5);
+    this.p.circle(head_x, y, this.p.random(10, 50));
+    this.p.pop();
 
     // Begin and end positions for head.
     const stem_direction = this.stem_direction;

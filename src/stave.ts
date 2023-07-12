@@ -731,7 +731,6 @@ export class Stave extends Element {
 
     this.p.push();
     this.applyStyle();
-    this.p.stroke('red');
 
     ctx.openGroup('stave', this.getAttribute('id'));
     if (!this.formatted) this.format();

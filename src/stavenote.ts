@@ -547,6 +547,8 @@ export class StaveNote extends StemmableNote {
         line: noteProps.line,
       });
 
+      notehead.setCustomStyle({ fillStyle: 'green' });
+
       this.addChildElement(notehead);
       this._noteHeads[this.sortedKeyProps[i].index] = notehead;
     }
@@ -850,6 +852,10 @@ export class StaveNote extends StemmableNote {
     return super.setGroupStyle(style);
   }
 
+  setCustomStyle(style: ElementStyle): void {
+    this.setCustomStyle(style);
+  }
+
   setStemStyle(style: ElementStyle): this {
     const stem = this.getStem();
     if (stem) stem.setStyle(style);
@@ -1073,10 +1079,14 @@ export class StaveNote extends StemmableNote {
       else x = (displaced_x ?? 0) - stroke_px;
       const ledgerWidth = normal && displaced ? doubleWidth : width;
 
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.lineTo(x + ledgerWidth, y);
-      ctx.stroke();
+      // ctx.beginPath();
+      // ctx.moveTo(x, y);
+      // ctx.lineTo(x + ledgerWidth, y);
+      // ctx.stroke();
+
+      this.p.push();
+      this.p.line(x, y, x + ledgerWidth, y);
+      this.p.pop();
     };
 
     const style = { ...stave.getDefaultLedgerLineStyle(), ...this.getLedgerLineStyle() };

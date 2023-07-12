@@ -193,13 +193,20 @@ export class Clef extends StaveModifier {
 
     this.applyStyle(ctx);
     ctx.openGroup('clef', this.getAttribute('id'));
-    Glyph.renderGlyph(ctx, this.x, stave.getYForLine(this.clef.line), Clef.getPoint(this.size), this.clef.code, {
-      category: `clef_${this.size}`,
-    });
+    Glyph.renderGlyph(
+      this.p.drawingContext,
+      this.x,
+      stave.getYForLine(this.clef.line),
+      Clef.getPoint(this.size),
+      this.clef.code,
+      {
+        category: `clef_${this.size}`,
+      }
+    );
     if (this.annotation !== undefined && this.attachment !== undefined) {
       this.placeGlyphOnLine(this.attachment, stave, this.annotation.line);
       this.attachment.setStave(stave);
-      this.attachment.setContext(ctx);
+      this.attachment.setContext(this.p.drawingContext);
       this.attachment.renderToStave(this.x);
     }
     ctx.closeGroup();

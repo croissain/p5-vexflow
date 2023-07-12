@@ -211,16 +211,24 @@ export class Stem extends Element {
     const stemletYOffset = this.isStemlet ? stemHeight - this.stemletHeight * this.stem_direction : 0;
 
     // Draw the stem
-    ctx.save();
-    this.applyStyle();
-    ctx.openGroup('stem', this.getAttribute('id'), { pointerBBox: true });
-    ctx.beginPath();
-    ctx.setLineWidth(Stem.WIDTH);
-    ctx.moveTo(stem_x, stem_y - stemletYOffset + y_base_offset);
-    ctx.lineTo(stem_x, stem_y - stemHeight - this.renderHeightAdjustment * stem_direction);
-    ctx.stroke();
-    ctx.closeGroup();
-    this.restoreStyle();
-    ctx.restore();
+    // ctx.save();
+    // this.applyStyle();
+    // ctx.openGroup('stem', this.getAttribute('id'), { pointerBBox: true });
+    // ctx.beginPath();
+    // ctx.setLineWidth(Stem.WIDTH);
+    // ctx.moveTo(stem_x, stem_y - stemletYOffset + y_base_offset);
+    // ctx.lineTo(stem_x, stem_y - stemHeight - this.renderHeightAdjustment * stem_direction);
+    // ctx.stroke();
+    // ctx.closeGroup();
+    // this.restoreStyle();
+    // ctx.restore();
+    this.p.push();
+    this.p.line(
+      stem_x,
+      stem_y - stemletYOffset + y_base_offset,
+      stem_x,
+      stem_y - stemHeight - this.renderHeightAdjustment * stem_direction
+    );
+    this.p.pop();
   }
 }
