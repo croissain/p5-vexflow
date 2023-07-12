@@ -171,7 +171,7 @@ export class Factory extends P5Base {
       }
     }
 
-    this.context = Renderer.buildContext(elementId, backend, width, height, background);
+    this.context = Renderer.buildContext(this.p, elementId, backend, width, height, background);
   }
 
   getContext(): RenderContext {

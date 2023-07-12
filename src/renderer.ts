@@ -1,6 +1,7 @@
 // [VexFlow](https://vexflow.com) - Copyright (c) Mohit Muthanna 2010.
 // MIT License
 
+import p5 from 'p5';
 import { CanvasContext } from './canvascontext';
 import { RenderContext } from './rendercontext';
 import { SVGContext } from './svgcontext';
@@ -37,13 +38,14 @@ export class Renderer {
   static lastContext?: RenderContext = undefined;
 
   static buildContext(
+    p: p5,
     elementId: string | HTMLCanvasElement | HTMLDivElement,
     backend: number,
     width: number,
     height: number,
     background: string = '#FFF'
   ): RenderContext {
-    const renderer = new Renderer(elementId, backend);
+    const renderer = new Renderer(p, elementId, backend);
     if (width && height) {
       renderer.resize(width, height);
     }
@@ -54,12 +56,12 @@ export class Renderer {
     return ctx;
   }
 
-  static getCanvasContext(elementId: string, width: number, height: number, background?: string): RenderContext {
-    return Renderer.buildContext(elementId, Renderer.Backends.CANVAS, width, height, background);
+  static getCanvasContext(p: p5, elementId: string, width: number, height: number, background?: string): RenderContext {
+    return Renderer.buildContext(p, elementId, Renderer.Backends.CANVAS, width, height, background);
   }
 
-  static getSVGContext(elementId: string, width: number, height: number, background?: string): RenderContext {
-    return Renderer.buildContext(elementId, Renderer.Backends.SVG, width, height, background);
+  static getSVGContext(p: p5, elementId: string, width: number, height: number, background?: string): RenderContext {
+    return Renderer.buildContext(p, elementId, Renderer.Backends.SVG, width, height, background);
   }
 
   // Draw a dashed line (horizontal, vertical or diagonal
@@ -110,9 +112,9 @@ export class Renderer {
    *   - a div element, which will contain the SVG output
    * @param backend Renderer.Backends.CANVAS or Renderer.Backends.SVG
    */
-  constructor(context: RenderContext);
-  constructor(canvas: string | HTMLCanvasElement | HTMLDivElement, backend: number);
-  constructor(arg0: string | HTMLCanvasElement | HTMLDivElement | RenderContext, arg1?: number) {
+  constructor(p: p5, context: RenderContext);
+  constructor(p: p5, canvas: string | HTMLCanvasElement | HTMLDivElement, backend: number);
+  constructor(p: p5, arg0: string | HTMLCanvasElement | HTMLDivElement | RenderContext, arg1?: number) {
     if (isRenderContext(arg0)) {
       // The user has provided what looks like a RenderContext, let's just use it.
       this.ctx = arg0;
@@ -139,7 +141,8 @@ export class Renderer {
         if (!isHTMLCanvas(element)) {
           throw new RuntimeError('BadElement', 'CANVAS context requires an HTMLCanvasElement.');
         }
-        const context = element.getContext('2d', { willReadFrequently: true });
+        // const context = element.getContext('2d', { willReadFrequently: true });
+        const context = p.drawingContext;
         if (!context) {
           throw new RuntimeError('BadElement', "Can't get canvas context");
         }

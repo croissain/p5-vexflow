@@ -547,8 +547,6 @@ export class StaveNote extends StemmableNote {
         line: noteProps.line,
       });
 
-      notehead.setCustomStyle({ fillStyle: 'green' });
-
       this.addChildElement(notehead);
       this._noteHeads[this.sortedKeyProps[i].index] = notehead;
     }

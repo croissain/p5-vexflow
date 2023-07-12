@@ -93,3 +93,5 @@ export * from './vibrato';
 export * from './vibratobracket';
 export * from './voice';
 export * from './web';
+
+export * from './NoiseBg';

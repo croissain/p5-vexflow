@@ -174,15 +174,6 @@ export class NoteHead extends Note {
     );
   }
 
-  setCustomStyle(style: any) {
-    if (style) {
-      this.p.drawingContext.strokeStyle = style.strokeStyle;
-      this.p.drawingContext.fillStyle = style.fillStyle;
-    }
-    this.p.drawingContext.strokeStyle = 'black';
-    this.p.drawingContext.fillStyle = 'black';
-  }
-
   /** Get the width of the notehead. */
   getWidth(): number {
     return this.width;
@@ -263,13 +254,6 @@ export class NoteHead extends Note {
     return this;
   }
 
-  setColor(color?: string): void {
-    if (color) {
-      this.p.drawingContext.fillStyle = color;
-    }
-    this.p.drawingContext.fillStyle = 'black';
-  }
-
   /** Pre-render formatting. */
   preFormat(): this {
     if (this.preFormatted) return this;
@@ -283,8 +267,7 @@ export class NoteHead extends Note {
 
   /** Draw the notehead. */
   draw(): void {
-    // const ctx = this.checkContext();
-    const ctx = this.p.drawingContext;
+    const ctx = this.checkContext();
     this.setRendered();
 
     let head_x = this.getAbsoluteX();

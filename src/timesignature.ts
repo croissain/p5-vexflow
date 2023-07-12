@@ -217,7 +217,7 @@ export class TimeSignature extends StaveModifier {
     this.applyStyle(ctx);
     ctx.openGroup('timesignature', this.getAttribute('id'));
     this.glyph.setStave(stave);
-    this.glyph.setContext(this.p.drawingContext);
+    this.glyph.setContext(ctx);
     this.placeGlyphOnLine(this.glyph, stave, this.line);
     this.glyph.renderToStave(this.x);
     ctx.closeGroup();
